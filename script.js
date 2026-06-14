@@ -32,18 +32,27 @@
   video.setAttribute('playsinline', '');
   video.setAttribute('webkit-playsinline', '');
 
+  let playing = false;
   function play() {
-    if (!video.paused) return;
+    if (playing || !video.paused) return;
     const p = video.play();
-    if (p && typeof p.catch === 'function') p.catch(() => {});
+    if (p && typeof p.then === 'function') {
+      p.then(() => { playing = true; }).catch(() => {});
+    }
   }
 
-  if (video.readyState >= 2) play();
-  else video.addEventListener('canplay', play, { once: true });
+  // Try immediately, and again as the video becomes playable. (Chrome with a
+  // metadata-only preload would sometimes never reach "canplay" and just show
+  // the poster — so we nudge it on several load events.)
+  play();
+  ['loadeddata', 'canplay', 'canplaythrough'].forEach((ev) =>
+    video.addEventListener(ev, play));
 
-  document.addEventListener('visibilitychange', () => {
-    if (!document.hidden) play();
-  });
+  // Last-resort fallbacks: first interaction or returning to the tab.
+  const kick = () => play();
+  ['pointerdown', 'touchstart', 'keydown', 'scroll'].forEach((ev) =>
+    window.addEventListener(ev, kick, { once: true, passive: true }));
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) play(); });
 })();
 
 /* ───────────── Header: sticky glass state + mobile menu ───────────── */
