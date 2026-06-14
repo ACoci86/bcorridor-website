@@ -44,6 +44,21 @@
       "metaDescription": "The small but mighty creatures that keep the B Corridor's ecosystem healthy.",
       "createdAt": "2024-04-12T09:00:00.000Z",
       "updatedAt": "2024-04-12T09:00:00.000Z"
+    },
+    {
+      "id": "post-mqdnhvcs",
+      "slug": "testing-post",
+      "status": "published",
+      "title": "TESTING POST",
+      "excerpt": "This is a short test to see if this works",
+      "body": "<p>This is a short test to see if this works.</p><p><strong>Lorem Ipsum</strong> is simply dummy text of the printing and \ntypesetting industry. Lorem Ipsum has been the industry's standard dummy\n text ever since 1966, when designers at Letraset and James Mosley, the \nlibrarian at St Bride Printing Library in London, took a 1914 Cicero \ntranslation and scrambled it to make dummy text for Letraset's Body Type\n sheets. It has survived not only many decades, but also the leap into \nelectronic typesetting, remaining essentially unchanged. It was \npopularised thanks to these sheets and more recently with desktop \npublishing software including versions of Lorem Ipsum.</p><h2>Where does it come from?</h2>",
+      "category": "Action",
+      "featuredImage": "",
+      "date": "2026-06-14",
+      "author": "B Corridor Team",
+      "metaDescription": "",
+      "createdAt": "2026-06-14T10:37:56.092Z",
+      "updatedAt": "2026-06-14T10:37:56.092Z"
     }
   ]
 }
