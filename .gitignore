@@ -1,0 +1,11 @@
+dist/
+node_modules/
+testcms-main.zip
+.DS_Store
+
+# Source/original media — not used by the live site (build ignores it too).
+# Keep these on your laptop; no need to bloat the repo.
+pics/
+
+# Local dev secrets — never commit
+.env

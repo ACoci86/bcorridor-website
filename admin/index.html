@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>B Corridor — News Editor</title>
+  <style>
+    :root{
+      --green:#46855c; --green-dark:#386b49; --forest:#16311f;
+      --cream:#fcfdf9; --panel:#f1f3e6; --sage:#eef3df;
+      --line:rgba(70,133,92,.25); --muted:#5a7068; --white:#fff; --danger:#b3402f;
+      --font:'Segoe UI',system-ui,-apple-system,Helvetica,Arial,sans-serif;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:var(--font);background:var(--cream);color:var(--forest);font-size:15px;line-height:1.5}
+    h1,h2,h3{margin:0}
+    button{font-family:inherit;cursor:pointer}
+    input,textarea,select{font-family:inherit;font-size:15px}
+    a{color:var(--green-dark)}
+
+    /* buttons */
+    .btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--green);background:var(--green);color:#fff;
+      padding:10px 18px;border-radius:10px;font-weight:600;font-size:15px;transition:background .15s}
+    .btn:hover{background:var(--green-dark)}
+    .btn--ghost{background:#fff;color:var(--green-dark)}
+    .btn--ghost:hover{background:var(--sage)}
+    .btn--danger{background:#fff;color:var(--danger);border-color:var(--danger)}
+    .btn--danger:hover{background:#fbeae7}
+    .btn--sm{padding:7px 12px;font-size:13px;border-radius:8px}
+
+    /* login */
+    .login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+    .login-card{width:100%;max-width:380px;background:#fff;border:1.5px solid var(--green);border-radius:18px;
+      box-shadow:4px 5px 0 0 var(--green);padding:32px}
+    .login-card h1{font-size:22px;margin-bottom:4px}
+    .login-card p.sub{color:var(--muted);font-size:14px;margin:0 0 22px}
+
+    /* layout */
+    .topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;background:#fff;border-bottom:1px solid var(--line)}
+    .topbar h1{font-size:18px}
+    .wrap{max-width:920px;margin:0 auto;padding:24px}
+
+    .field{margin-bottom:16px}
+    .field label{display:block;font-weight:600;font-size:13px;margin-bottom:6px}
+    .field .hint{font-weight:400;color:var(--muted);font-size:12px}
+    .field input[type=text],.field input[type=email],.field input[type=password],
+    .field input[type=date],.field textarea,.field select{
+      width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--forest)}
+    .field textarea{resize:vertical;min-height:70px}
+    .field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(70,133,92,.18)}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    @media(max-width:600px){.row{grid-template-columns:1fr}}
+
+    /* post list */
+    .post-row{display:flex;align-items:center;gap:14px;padding:14px;border:1px solid var(--line);border-radius:12px;background:#fff;margin-bottom:10px}
+    .post-row .thumb{width:54px;height:54px;border-radius:8px;object-fit:cover;background:var(--sage);flex:0 0 auto}
+    .post-row .info{flex:1;min-width:0}
+    .post-row .info h3{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .post-row .info .meta{color:var(--muted);font-size:12px;margin-top:2px}
+    .badge{display:inline-block;font-size:11px;padding:2px 9px;border-radius:999px;font-weight:600}
+    .badge--pub{background:var(--sage);color:var(--green-dark)}
+    .badge--draft{background:#f0e7d6;color:#8a6d2f}
+
+    /* editor */
+    .editor-toolbar{display:flex;flex-wrap:wrap;gap:4px;border:1px solid var(--line);border-bottom:none;border-radius:10px 10px 0 0;padding:6px;background:var(--panel)}
+    .editor-toolbar button{border:1px solid transparent;background:transparent;border-radius:7px;padding:6px 10px;font-size:14px;color:var(--forest)}
+    .editor-toolbar button:hover{background:#fff;border-color:var(--line)}
+    .editor{border:1px solid var(--line);border-radius:0 0 10px 10px;min-height:280px;padding:16px 18px;background:#fff;line-height:1.7}
+    .editor:focus{outline:none;box-shadow:inset 0 0 0 2px rgba(70,133,92,.18)}
+    .editor h2{font-size:22px;margin:18px 0 8px}
+    .editor h3{font-size:18px;margin:16px 0 6px}
+    .editor blockquote{border-left:3px solid var(--green);margin:14px 0;padding:6px 0 6px 16px;color:#4a4a4a}
+    .editor img{max-width:100%;border-radius:8px;margin:10px 0}
+    .editor:empty:before{content:attr(data-placeholder);color:#aab;}
+    /* carousel / video blocks as they appear inside the editor */
+    .editor .article-carousel{display:flex;flex-wrap:wrap;gap:6px;border:1px dashed var(--green);border-radius:10px;padding:14px 8px 8px;background:var(--sage);position:relative;margin:14px 0}
+    .editor .article-carousel:before{content:"🎠 Carousel";position:absolute;top:-9px;left:10px;background:#fff;font-size:11px;padding:0 6px;color:var(--green-dark)}
+    .editor .article-carousel img{width:90px;height:64px;object-fit:cover;border-radius:6px;margin:0}
+    .editor .article-embed{border:1px dashed var(--green);border-radius:10px;padding:16px;background:var(--sage);color:var(--green-dark);font-size:13px;margin:14px 0;word-break:break-all}
+    .editor .article-embed:before{content:"🎬 Video: ";font-weight:600}
+    .editor .article-embed:after{content:attr(data-embed)}
+
+    .feat-preview{margin-top:8px;max-width:240px;border-radius:10px;border:1px solid var(--line);display:none}
+    .actions{display:flex;gap:10px;align-items:center;margin-top:22px;flex-wrap:wrap}
+    .spacer{flex:1}
+
+    .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--forest);color:#fff;
+      padding:12px 20px;border-radius:10px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .25s;z-index:50}
+    .toast.show{opacity:1}
+    .toast.err{background:var(--danger)}
+    .hidden{display:none!important}
+    .empty{color:var(--muted);text-align:center;padding:40px}
+  </style>
+</head>
+<body>
+
+  <!-- LOGIN -->
+  <div id="login" class="login-wrap">
+    <form class="login-card" id="loginForm">
+      <h1>B Corridor News</h1>
+      <p class="sub">Sign in to write and edit news posts.</p>
+      <div class="field"><label for="li-email">Email</label><input id="li-email" type="email" autocomplete="username" required /></div>
+      <div class="field"><label for="li-pass">Password</label><input id="li-pass" type="password" autocomplete="current-password" required /></div>
+      <button class="btn" type="submit" style="width:100%;justify-content:center">Sign in</button>
+    </form>
+  </div>
+
+  <!-- APP -->
+  <div id="app" class="hidden">
+    <div class="topbar">
+      <h1>B Corridor News</h1>
+      <div>
+        <button class="btn btn--ghost btn--sm" id="newBtn">+ New post</button>
+        <button class="btn btn--ghost btn--sm" id="logoutBtn">Log out</button>
+      </div>
+    </div>
+
+    <!-- LIST VIEW -->
+    <div class="wrap" id="listView">
+      <h2 style="margin-bottom:16px">Posts</h2>
+      <div id="postList"></div>
+    </div>
+
+    <!-- EDITOR VIEW -->
+    <div class="wrap hidden" id="editView">
+      <button class="btn btn--ghost btn--sm" id="backBtn" style="margin-bottom:16px">← Back to posts</button>
+      <h2 id="editTitle" style="margin-bottom:18px">New post</h2>
+
+      <div class="field">
+        <label for="f-title">Title</label>
+        <input id="f-title" type="text" placeholder="e.g. A Corridor in Bloom" />
+      </div>
+
+      <div class="field">
+        <label for="f-excerpt">Short summary <span class="hint">— shown on the cards (1–2 sentences)</span></label>
+        <textarea id="f-excerpt" placeholder="A short teaser that appears on the News page and homepage."></textarea>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="f-category">Category</label>
+          <select id="f-category">
+            <option>Action</option><option>Education</option><option>Community</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-date">Date</label>
+          <input id="f-date" type="date" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="f-author">Author</label>
+        <input id="f-author" type="text" placeholder="e.g. B Corridor Team" />
+      </div>
+
+      <div class="field">
+        <label>Featured image <span class="hint">— the big photo at the top</span></label>
+        <input type="file" id="f-featfile" accept="image/*" />
+        <input type="hidden" id="f-featimg" />
+        <img class="feat-preview" id="featPreview" alt="" />
+      </div>
+
+      <div class="field">
+        <label>Article text</label>
+        <div class="editor-toolbar">
+          <button type="button" data-cmd="bold" title="Bold"><strong>B</strong></button>
+          <button type="button" data-cmd="italic" title="Italic"><em>i</em></button>
+          <button type="button" data-block="h2" title="Heading">H2</button>
+          <button type="button" data-block="h3" title="Sub-heading">H3</button>
+          <button type="button" data-cmd="insertUnorderedList" title="Bulleted list">• List</button>
+          <button type="button" data-block="blockquote" title="Quote">❝ Quote</button>
+          <button type="button" id="linkBtn" title="Add link">🔗 Link</button>
+          <button type="button" id="imgBtn" title="Insert image">🖼 Image</button>
+          <button type="button" id="carouselBtn" title="Add an image carousel (several photos)">🎠 Carousel</button>
+          <button type="button" id="videoBtn" title="Add a YouTube or Vimeo video">🎬 Video</button>
+        </div>
+        <div class="editor" id="f-body" contenteditable="true" data-placeholder="Write your article here…"></div>
+        <input type="file" id="bodyImgFile" accept="image/*" class="hidden" />
+        <input type="file" id="carouselFiles" accept="image/*" multiple class="hidden" />
+      </div>
+
+      <div class="field" style="max-width:220px">
+        <label for="f-status">Visibility</label>
+        <select id="f-status">
+          <option value="published">Published (live on the site)</option>
+          <option value="draft">Draft (only you can see it)</option>
+        </select>
+      </div>
+
+      <div class="actions">
+        <button class="btn" id="saveBtn">Save</button>
+        <button class="btn btn--danger" id="deleteBtn" style="display:none">Delete</button>
+        <div class="spacer"></div>
+      </div>
+      <p class="hint" style="margin-top:10px;color:var(--muted)">After saving, the live site updates automatically in about a minute.</p>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+  const fn = (name) => '/api/' + name;
+  const $ = (id) => document.getElementById(id);
+  let posts = [];
+  let editingId = null;
+
+  function toast(msg, isErr){ const t=$('toast'); t.textContent=msg; t.className='toast show'+(isErr?' err':''); setTimeout(()=>t.className='toast',2600); }
+
+  // ── auth ──────────────────────────────────────────────────────────────────
+  async function checkAuth(){
+    try{ const r = await fetch(fn('list')); if(r.ok){ const d=await r.json(); posts=d.posts||[]; showApp(); renderList(); return; } }catch(e){}
+    showLogin();
+  }
+  function showLogin(){ $('login').classList.remove('hidden'); $('app').classList.add('hidden'); }
+  function showApp(){ $('login').classList.add('hidden'); $('app').classList.remove('hidden'); }
+
+  $('loginForm').addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const email=$('li-email').value.trim(), password=$('li-pass').value;
+    const r = await fetch(fn('login'),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})});
+    if(r.ok){ $('li-pass').value=''; checkAuth(); }
+    else { const d=await r.json().catch(()=>({})); toast(d.error||'Login failed', true); }
+  });
+  $('logoutBtn').addEventListener('click', async ()=>{ await fetch(fn('logout'),{method:'POST'}); showLogin(); });
+
+  // ── list ──────────────────────────────────────────────────────────────────
+  function fmtDate(d){ if(!d) return ''; const dt=new Date(d); return isNaN(dt)?d:dt.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}); }
+  function renderList(){
+    const el=$('postList');
+    const sorted=[...posts].sort((a,b)=>new Date(b.date)-new Date(a.date));
+    if(!sorted.length){ el.innerHTML='<div class="empty">No posts yet. Click “New post” to write your first one.</div>'; return; }
+    el.innerHTML = sorted.map(p=>`
+      <div class="post-row">
+        <img class="thumb" src="${p.featuredImage||'/assets/placeholder.svg'}" alt="" onerror="this.src='/assets/placeholder.svg'"/>
+        <div class="info">
+          <h3>${escapeHtml(p.title)}</h3>
+          <div class="meta">
+            <span class="badge ${p.status==='published'?'badge--pub':'badge--draft'}">${p.status==='published'?'Published':'Draft'}</span>
+            &nbsp; ${escapeHtml(p.category||'')} &nbsp;·&nbsp; ${fmtDate(p.date)}
+          </div>
+        </div>
+        <button class="btn btn--ghost btn--sm" data-edit="${p.id}">Edit</button>
+      </div>`).join('');
+    el.querySelectorAll('[data-edit]').forEach(b=>b.addEventListener('click',()=>openEditor(b.dataset.edit)));
+  }
+  function escapeHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+  // ── editor ──────────────────────────────────────────────────────────────────
+  function openEditor(id){
+    editingId = id || null;
+    const p = id ? posts.find(x=>x.id===id) : null;
+    $('editTitle').textContent = p ? 'Edit post' : 'New post';
+    $('f-title').value = p?.title || '';
+    $('f-excerpt').value = p?.excerpt || '';
+    $('f-category').value = p?.category || 'Action';
+    $('f-date').value = p?.date || new Date().toISOString().slice(0,10);
+    $('f-author').value = p?.author || 'B Corridor Team';
+    $('f-featimg').value = p?.featuredImage || '';
+    $('f-body').innerHTML = p?.body || '';
+    $('f-status').value = p?.status || 'published';
+    const prev=$('featPreview'); if(p?.featuredImage){ prev.src=p.featuredImage; prev.style.display='block'; } else { prev.style.display='none'; }
+    $('deleteBtn').style.display = id ? 'inline-flex' : 'none';
+    $('listView').classList.add('hidden'); $('editView').classList.remove('hidden'); window.scrollTo(0,0);
+  }
+  $('newBtn').addEventListener('click',()=>openEditor(null));
+  $('backBtn').addEventListener('click',()=>{ $('editView').classList.add('hidden'); $('listView').classList.remove('hidden'); });
+
+  // toolbar
+  document.querySelectorAll('.editor-toolbar [data-cmd]').forEach(b=>b.addEventListener('mousedown',e=>{e.preventDefault();document.execCommand(b.dataset.cmd,false,null);}));
+  document.querySelectorAll('.editor-toolbar [data-block]').forEach(b=>b.addEventListener('mousedown',e=>{e.preventDefault();document.execCommand('formatBlock',false,b.dataset.block);}));
+  $('linkBtn').addEventListener('mousedown',e=>{e.preventDefault();const url=prompt('Link address (https://…)');if(url)document.execCommand('createLink',false,url);});
+  $('imgBtn').addEventListener('mousedown',e=>{e.preventDefault();$('bodyImgFile').click();});
+  $('bodyImgFile').addEventListener('change',async e=>{
+    const f=e.target.files[0]; if(!f)return; toast('Uploading image…');
+    try{ const url=await uploadImage(f); document.execCommand('insertHTML',false,`<img src="${url}" alt="">`); toast('Image added ✓'); }
+    catch(err){ toast(err.message||'Upload failed',true); }
+    e.target.value='';
+  });
+
+  // carousel — upload several images, insert a carousel block
+  $('carouselBtn').addEventListener('mousedown',e=>{e.preventDefault();$('carouselFiles').click();});
+  $('carouselFiles').addEventListener('change',async e=>{
+    const files=[...e.target.files]; if(!files.length)return;
+    toast('Uploading '+files.length+' image'+(files.length>1?'s':'')+'…');
+    try{
+      const urls=[]; for(const f of files){ urls.push(await uploadImage(f)); }
+      const imgs=urls.map((u,i)=>{
+        const cap=(prompt(`Caption for image ${i+1} of ${urls.length} (optional — leave blank for none):`,'')||'').trim();
+        const safe=cap.replace(/"/g,'&quot;');
+        return `<img src="${u}" alt="${safe}"${cap?` data-caption="${safe}"`:''}>`;
+      }).join('');
+      document.execCommand('insertHTML',false,`<div class="article-carousel" contenteditable="false">${imgs}</div><p><br></p>`);
+      toast('Carousel added ✓');
+    }catch(err){ toast(err.message||'Upload failed',true); }
+    e.target.value='';
+  });
+
+  // video — paste a YouTube/Vimeo link, insert an embed block
+  $('videoBtn').addEventListener('mousedown',e=>{
+    e.preventDefault();
+    const url=prompt('Paste a YouTube or Vimeo link:'); if(!url)return;
+    let embed=toEmbed(url.trim());
+    if(!embed){ toast('Please paste a YouTube or Vimeo link',true); return; }
+    if(confirm('Play the video automatically when the page opens? (It will be muted.)')){
+      const sep = embed.includes('?') ? '&' : '?';
+      embed += sep + (embed.includes('youtube') ? 'autoplay=1&mute=1&playsinline=1' : 'autoplay=1&muted=1');
+    }
+    document.execCommand('insertHTML',false,`<div class="article-embed" contenteditable="false" data-embed="${embed}"></div><p><br></p>`);
+    toast('Video added ✓');
+  });
+  function toEmbed(url){
+    let m;
+    if(m=url.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([\w-]{6,})/)) return 'https://www.youtube.com/embed/'+m[1];
+    if(m=url.match(/vimeo\.com\/(?:video\/)?(\d+)/)) return 'https://player.vimeo.com/video/'+m[1];
+    if(/^https:\/\/(www\.youtube\.com\/embed\/|player\.vimeo\.com\/video\/)/.test(url)) return url;
+    return null;
+  }
+
+  // featured image
+  $('f-featfile').addEventListener('change',async e=>{
+    const f=e.target.files[0]; if(!f)return; toast('Uploading image…');
+    try{ const url=await uploadImage(f); $('f-featimg').value=url; const prev=$('featPreview'); prev.src=url; prev.style.display='block'; toast('Image uploaded ✓'); }
+    catch(err){ toast(err.message||'Upload failed',true); }
+    e.target.value='';
+  });
+
+  // resize client-side then upload
+  async function uploadImage(file){
+    const dataUrl = await resizeImage(file, 1400, 0.82);
+    const filename = (file.name.replace(/\.[^.]+$/,'')||'image') + '.webp';
+    const r = await fetch(fn('upload'),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({filename,dataBase64:dataUrl})});
+    if(r.status===401){ showLogin(); throw new Error('Please sign in again'); }
+    const d = await r.json(); if(!r.ok) throw new Error(d.error||'Upload failed');
+    return d.url;
+  }
+  function resizeImage(file,maxW,quality){
+    return new Promise((res,rej)=>{
+      const img=new Image(); const url=URL.createObjectURL(file);
+      img.onload=()=>{ URL.revokeObjectURL(url);
+        let w=img.naturalWidth,h=img.naturalHeight; if(w>maxW){h=Math.round(h*maxW/w);w=maxW;}
+        const c=document.createElement('canvas'); c.width=w; c.height=h; c.getContext('2d').drawImage(img,0,0,w,h);
+        res(c.toDataURL('image/webp',quality));
+      };
+      img.onerror=()=>{URL.revokeObjectURL(url);rej(new Error('Could not read image'));};
+      img.src=url;
+    });
+  }
+
+  // save
+  $('saveBtn').addEventListener('click',async ()=>{
+    const title=$('f-title').value.trim();
+    if(!title){ toast('Please add a title',true); return; }
+    const post={
+      id: editingId||undefined,
+      title,
+      excerpt:$('f-excerpt').value.trim(),
+      body: cleanHtml($('f-body').innerHTML),
+      category:$('f-category').value,
+      date:$('f-date').value,
+      author:$('f-author').value.trim(),
+      featuredImage:$('f-featimg').value.trim(),
+      status:$('f-status').value
+    };
+    $('saveBtn').disabled=true; $('saveBtn').textContent='Saving…';
+    try{
+      const r=await fetch(fn('save'),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({post})});
+      if(r.status===401){ showLogin(); throw new Error('Please sign in again'); }
+      const d=await r.json(); if(!r.ok) throw new Error(d.error||'Save failed');
+      toast('Saved ✓ The site will update shortly.');
+      await refresh(); $('editView').classList.add('hidden'); $('listView').classList.remove('hidden');
+    }catch(err){ toast(err.message||'Save failed',true); }
+    finally{ $('saveBtn').disabled=false; $('saveBtn').textContent='Save'; }
+  });
+
+  // delete
+  $('deleteBtn').addEventListener('click',async ()=>{
+    if(!editingId) return;
+    if(!confirm('Delete this post? This cannot be undone.')) return;
+    try{
+      const r=await fetch(fn('save'),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'delete',id:editingId})});
+      const d=await r.json(); if(!r.ok) throw new Error(d.error||'Delete failed');
+      toast('Post deleted'); await refresh(); $('editView').classList.add('hidden'); $('listView').classList.remove('hidden');
+    }catch(err){ toast(err.message||'Delete failed',true); }
+  });
+
+  async function refresh(){ const r=await fetch(fn('list')); if(r.ok){ posts=(await r.json()).posts||[]; renderList(); } }
+
+  // light cleanup of editor HTML
+  function cleanHtml(html){
+    const d=document.createElement('div'); d.innerHTML=html;
+    d.querySelectorAll('[style]').forEach(e=>e.removeAttribute('style'));
+    d.querySelectorAll('[contenteditable]').forEach(e=>e.removeAttribute('contenteditable'));
+    d.querySelectorAll('font').forEach(e=>{const s=document.createElement('span');s.innerHTML=e.innerHTML;e.replaceWith(s);});
+    d.querySelectorAll('b').forEach(e=>{const s=document.createElement('strong');s.innerHTML=e.innerHTML;e.replaceWith(s);});
+    d.querySelectorAll('i').forEach(e=>{const s=document.createElement('em');s.innerHTML=e.innerHTML;e.replaceWith(s);});
+    return d.innerHTML.replace(/<div>/g,'<p>').replace(/<\/div>/g,'</p>').trim();
+  }
+
+  checkAuth();
+  </script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+{
+  "posts": [
+    {
+      "id": "post-001",
+      "slug": "a-corridor-in-bloom",
+      "status": "published",
+      "title": "A Corridor in Bloom",
+      "excerpt": "Spring has arrived along the B Corridor, bringing colour, life, and a reminder of why this landscape matters. Take a look at what's flowering and what's been buzzing.",
+      "body": "<p>Spring has arrived along the B Corridor, bringing colour, life, and a welcome reminder of why this landscape matters. After a long, grey winter, the verges, hedgerows and riverbanks are waking up, and so are the creatures that depend on them.</p>\n<p>Walk any stretch of the corridor this month and you will notice the change underfoot. What looked like bare ground in February is now a patchwork of green, threaded with the first flowers of the year.</p>\n<h2>What's flowering</h2>\n<p>The earliest colour comes from the humble pioneers of the hedge bank, plants we too often mow away before they have a chance to do their work. This spring, look out for lesser celandine, primrose and cowslip, dandelion, and blackthorn frothing white along the older hedgerows.</p>\n<img src=\"/assets/pollinator-photo.webp\" alt=\"A pollinator visiting an early spring flower\" />\n<h2>What's buzzing</h2>\n<p>Where there are flowers, there is movement. The first queen bumblebees are out, fresh from hibernation and searching for both food and a place to nest. On warmer afternoons you may catch the season's first butterflies tracing the line of the hedge.</p>\n<blockquote>A corridor is only as strong as the stepping stones that make it. Every flowering verge is one more place for life to rest, feed and move on.</blockquote>\n<h2>How you can help</h2>\n<p>You don't need a large garden, or any garden at all, to be part of this. The simplest thing most of us can do is also one of the most powerful: leave the mower in the shed a little longer.</p>",
+      "category": "Action",
+      "featuredImage": "/assets/plants-meadows.webp",
+      "date": "2024-05-10",
+      "author": "B Corridor Team",
+      "metaDescription": "Spring along the B Corridor: what's flowering, what's buzzing, and how you can help.",
+      "createdAt": "2024-05-10T09:00:00.000Z",
+      "updatedAt": "2024-05-10T09:00:00.000Z"
+    },
+    {
+      "id": "post-002",
+      "slug": "community-planting-day-a-huge-success",
+      "status": "published",
+      "title": "Community Planting Day A Huge Success",
+      "excerpt": "Thanks to over 80 volunteers, we planted more than 2,000 native trees and shrubs along the river banks. Here's a look at the day and the impact we're making together.",
+      "body": "<p>Thanks to over 80 volunteers, we planted more than 2,000 native trees and shrubs along the river banks this weekend. It was a brilliant turnout from across the community.</p>\n<p>Native hedgerows like these are the backbone of the corridor, providing food, shelter and safe passage for wildlife between larger habitats. Every tree planted is a small investment in a wilder, more connected landscape.</p>\n<h2>Thank you</h2>\n<p>To everyone who turned up with a spade and a smile: thank you. Days like these are what the B Corridor is all about.</p>",
+      "category": "Community",
+      "featuredImage": "/assets/connecting-communities.webp",
+      "date": "2024-04-28",
+      "author": "B Corridor Team",
+      "metaDescription": "Over 80 volunteers planted 2,000 native trees and shrubs along the B Corridor river banks.",
+      "createdAt": "2024-04-28T09:00:00.000Z",
+      "updatedAt": "2024-04-28T09:00:00.000Z"
+    },
+    {
+      "id": "post-003",
+      "slug": "small-creatures-big-impact",
+      "status": "published",
+      "title": "Small Creatures, Big Impact",
+      "excerpt": "From frogs to fungi, the small but mighty play a huge role in a healthy ecosystem. Discover some of the unsung heroes of the B Corridor.",
+      "body": "<p>From frogs to fungi, the small but mighty play a huge role in a healthy ecosystem. They rarely make the headlines, but without them the whole corridor would unravel.</p>\n<p>Pollinators move life from flower to flower. Decomposers return nutrients to the soil. Amphibians keep insect numbers in check. Each one is a thread in the web.</p>\n<h2>The unsung heroes</h2>\n<p>Next time you walk the corridor, look closely at the edges, the damp corners, the long grass. That's where the real work is happening.</p>",
+      "category": "Education",
+      "featuredImage": "/assets/pollinator-photo.webp",
+      "date": "2024-04-12",
+      "author": "B Corridor Team",
+      "metaDescription": "The small but mighty creatures that keep the B Corridor's ecosystem healthy.",
+      "createdAt": "2024-04-12T09:00:00.000Z",
+      "updatedAt": "2024-04-12T09:00:00.000Z"
+    }
+  ]
+}
