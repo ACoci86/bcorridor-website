@@ -557,7 +557,9 @@ button, input, textarea, select { font: inherit; }
   height: 112vh;
   min-height: 760px;
   overflow: hidden;
-  background: var(--green);   /* fallback before the video loads */
+  /* Poster always shows behind the video, so the hero is never black even if
+     the video is slow to start or autoplay is blocked. */
+  background: var(--green) url('assets/hero-poster.jpg') center / cover no-repeat;
   isolation: isolate;
   z-index: 1;
 }
@@ -570,10 +572,14 @@ button, input, textarea, select { font: inherit; }
   object-position: center;
   z-index: -2;
   pointer-events: none;
+  /* Hidden until it's actually playing, then fade in over the poster. */
+  opacity: 0;
+  transition: opacity .7s ease;
   transform: translate3d(0, 0, 0) scale(1.001);
   backface-visibility: hidden;
   will-change: transform;
 }
+.hero-video.is-playing { opacity: 1; }
 /* On tablet/laptop the centered crop hides the bee — nudge the window a touch. */
 @media (max-width: 1200px) {
   .hero-video { object-position: 56% center; }

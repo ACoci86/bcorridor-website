@@ -32,26 +32,24 @@
   video.setAttribute('playsinline', '');
   video.setAttribute('webkit-playsinline', '');
 
-  let playing = false;
+  // Fade the video in over the poster only once it's actually playing —
+  // so a slow start or a black first frame is never shown.
+  video.addEventListener('playing', () => video.classList.add('is-playing'));
+
   function play() {
-    if (playing || !video.paused) return;
+    if (!video.paused) return;
     const p = video.play();
-    if (p && typeof p.then === 'function') {
-      p.then(() => { playing = true; }).catch(() => {});
-    }
+    if (p && typeof p.catch === 'function') p.catch(() => {});
   }
 
-  // Try immediately, and again as the video becomes playable. (Chrome with a
-  // metadata-only preload would sometimes never reach "canplay" and just show
-  // the poster — so we nudge it on several load events.)
-  play();
-  ['loadeddata', 'canplay', 'canplaythrough'].forEach((ev) =>
-    video.addEventListener(ev, play));
+  // Start once there's data; retry on the load milestones.
+  if (video.readyState >= 3) play();
+  video.addEventListener('loadeddata', play);
+  video.addEventListener('canplay', play);
 
-  // Last-resort fallbacks: first interaction or returning to the tab.
-  const kick = () => play();
+  // Fallbacks: first user interaction, or returning to the tab.
   ['pointerdown', 'touchstart', 'keydown', 'scroll'].forEach((ev) =>
-    window.addEventListener(ev, kick, { once: true, passive: true }));
+    window.addEventListener(ev, play, { once: true, passive: true }));
   document.addEventListener('visibilitychange', () => { if (!document.hidden) play(); });
 })();
 
