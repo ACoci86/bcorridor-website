@@ -283,6 +283,7 @@
     $('f-author').value = p?.author || 'B Corridor Team';
     $('f-featimg').value = p?.featuredImage || '';
     $('f-body').innerHTML = p?.body || '';
+    normalizeEditorBlocks();
     $('f-status').value = p?.status || 'published';
     const prev=$('featPreview'); if(p?.featuredImage){ prev.src=p.featuredImage; prev.style.display='block'; } else { prev.style.display='none'; }
     $('deleteBtn').style.display = id ? 'inline-flex' : 'none';
@@ -314,13 +315,15 @@
     const s = window.getSelection(); s.removeAllRanges(); s.addRange(range);
     savedRange = range.cloneRange();
   }
-  function insertCarousel(items){ // items: [{url, caption}]
+  function insertCarousel(items){ // items: [{url, dataUrl, caption}]
     const car = document.createElement('div');
     car.className = 'article-carousel';
     car.setAttribute('contenteditable','false');
     items.forEach(it => {
       const img = document.createElement('img');
-      img.src = it.url; img.alt = it.caption || '';
+      img.src = it.dataUrl || it.url;       // show instantly — no wait for redeploy
+      img.setAttribute('data-url', it.url); // real /images path, written back on save
+      img.alt = it.caption || '';
       if (it.caption) img.setAttribute('data-caption', it.caption);
       car.appendChild(img);
     });
@@ -329,11 +332,23 @@
     car.after(p);
   }
 
+  // Re-arm carousel/video blocks as non-editable after loading a saved post
+  // (cleanHtml strips contenteditable on save), and guarantee a typeable line
+  // after a trailing block so the article never becomes impossible to edit.
+  function normalizeEditorBlocks(){
+    const fb=$('f-body');
+    fb.querySelectorAll('.article-carousel, .article-embed').forEach(el=>el.setAttribute('contenteditable','false'));
+    const last=fb.lastElementChild;
+    if(last && (last.classList.contains('article-carousel')||last.classList.contains('article-embed'))){
+      const p=document.createElement('p'); p.innerHTML='<br>'; fb.appendChild(p);
+    }
+  }
+
   // single image
   $('imgBtn').addEventListener('mousedown',e=>{e.preventDefault();saveSel();$('bodyImgFile').click();});
   $('bodyImgFile').addEventListener('change',async e=>{
     const f=e.target.files[0]; e.target.value=''; if(!f)return; toast('Uploading image…');
-    try{ const url=await uploadImage(f); const img=document.createElement('img'); img.src=url; img.alt=''; insertNode(img); toast('Image added ✓'); }
+    try{ const {url,dataUrl}=await uploadImage(f); const img=document.createElement('img'); img.src=dataUrl; img.alt=''; img.setAttribute('data-url',url); insertNode(img); toast('Image added ✓'); }
     catch(err){ toast(err.message||'Upload failed',true); }
   });
 
@@ -402,8 +417,8 @@
       const items=[];
       for(let i=0;i<files.length;i++){
         $('capConfirm').textContent='Uploading '+(i+1)+' of '+files.length+'…';
-        const url=await uploadImage(files[i]);
-        items.push({url, caption:caps[i]||''});
+        const {url,dataUrl}=await uploadImage(files[i]);
+        items.push({url, dataUrl, caption:caps[i]||''});
       }
       insertCarousel(items);
       toast('Carousel added ✓ ('+items.length+' photos)');
@@ -436,7 +451,7 @@
   // featured image
   $('f-featfile').addEventListener('change',async e=>{
     const f=e.target.files[0]; if(!f)return; toast('Uploading image…');
-    try{ const url=await uploadImage(f); $('f-featimg').value=url; const prev=$('featPreview'); prev.src=url; prev.style.display='block'; toast('Image uploaded ✓'); }
+    try{ const {url,dataUrl}=await uploadImage(f); $('f-featimg').value=url; const prev=$('featPreview'); prev.src=dataUrl; prev.style.display='block'; toast('Image uploaded ✓'); }
     catch(err){ toast(err.message||'Upload failed',true); }
     e.target.value='';
   });
@@ -450,7 +465,7 @@
     const r = await fetch(fn('upload'),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({filename,dataBase64:dataUrl})});
     if(r.status===401){ showLogin(); throw new Error('Please sign in again'); }
     const d = await r.json(); if(!r.ok) throw new Error(d.error||'Upload failed');
-    return d.url;
+    return { url: d.url, dataUrl };
   }
   function resizeImage(file,maxW,quality){
     return new Promise((res,rej)=>{
@@ -512,6 +527,9 @@
   // light cleanup of editor HTML
   function cleanHtml(html){
     const d=document.createElement('div'); d.innerHTML=html;
+    // images carry their instant-preview data in src and the real /images path in
+    // data-url — write the real path back so the saved post stays small & correct.
+    d.querySelectorAll('img[data-url]').forEach(im=>{ im.setAttribute('src', im.getAttribute('data-url')); im.removeAttribute('data-url'); });
     d.querySelectorAll('[style]').forEach(e=>e.removeAttribute('style'));
     d.querySelectorAll('[contenteditable]').forEach(e=>e.removeAttribute('contenteditable'));
     d.querySelectorAll('font').forEach(e=>{const s=document.createElement('span');s.innerHTML=e.innerHTML;e.replaceWith(s);});
