@@ -78,7 +78,7 @@
     {
       "id": "post-mqgklgk4",
       "slug": "this-is-a-test",
-      "status": "draft",
+      "status": "published",
       "title": "this is a test",
       "excerpt": "",
       "body": "this is a test",
@@ -88,7 +88,7 @@
       "author": "B Corridor Team",
       "metaDescription": "",
       "createdAt": "2026-06-16T11:40:03.220Z",
-      "updatedAt": "2026-06-16T11:40:03.220Z"
+      "updatedAt": "2026-06-16T11:40:17.225Z"
     }
   ]
 }
