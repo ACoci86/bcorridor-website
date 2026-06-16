@@ -140,6 +140,7 @@
     <!-- EDITOR VIEW -->
     <div class="wrap hidden" id="editView">
       <button class="btn btn--ghost btn--sm" id="backBtn" style="margin-bottom:16px">← Back to posts</button>
+      <a class="btn btn--ghost btn--sm" id="viewLive" target="_blank" rel="noopener" style="display:none;margin-bottom:16px;margin-left:8px;text-decoration:none">View live ↗</a>
       <h2 id="editTitle" style="margin-bottom:18px">New post</h2>
 
       <div class="field">
@@ -273,6 +274,7 @@
             &nbsp; ${escapeHtml(p.category||'')} &nbsp;·&nbsp; ${fmtDate(p.date)}
           </div>
         </div>
+        ${p.status==='published' && p.slug ? `<a class="btn btn--ghost btn--sm" href="/news/${p.slug}" target="_blank" rel="noopener" style="text-decoration:none">View ↗</a>` : ''}
         <button class="btn btn--ghost btn--sm" data-edit="${p.id}">Edit</button>
       </div>`).join('');
     el.querySelectorAll('[data-edit]').forEach(b=>b.addEventListener('click',()=>openEditor(b.dataset.edit)));
@@ -295,6 +297,9 @@
     $('f-status').value = p?.status || 'published';
     const prev=$('featPreview'); if(p?.featuredImage){ prev.src=p.featuredImage; prev.style.display='block'; $('featRemove').style.display='inline-flex'; } else { prev.style.display='none'; $('featRemove').style.display='none'; }
     $('deleteBtn').style.display = id ? 'inline-flex' : 'none';
+    const vl=$('viewLive');
+    if(p && p.status==='published' && p.slug){ vl.href='/news/'+p.slug; vl.style.display='inline-flex'; }
+    else { vl.style.display='none'; }
     $('listView').classList.add('hidden'); $('editView').classList.remove('hidden'); window.scrollTo(0,0);
   }
   $('newBtn').addEventListener('click',()=>openEditor(null));
