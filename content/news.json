@@ -44,6 +44,21 @@
       "metaDescription": "The small but mighty creatures that keep the B Corridor's ecosystem healthy.",
       "createdAt": "2024-04-12T09:00:00.000Z",
       "updatedAt": "2024-04-12T09:00:00.000Z"
+    },
+    {
+      "id": "post-mqghpqls",
+      "slug": "this-is-a-test-for-the-carousel",
+      "status": "draft",
+      "title": "this is a test for the carousel",
+      "excerpt": "",
+      "body": "<div class=\"article-carousel\"><img src=\"/images/mqghokng-pollinator.webp\" alt=\"test\" data-caption=\"test\"><img src=\"/images/mqgholvo-mushroom.webp\" alt=\"test\" data-caption=\"test\"><img src=\"/images/mqghon9a-planting.webp\" alt=\"test\" data-caption=\"test\"><img src=\"/images/mqghooj7-moth.webp\" alt=\"test\" data-caption=\"test\"><img src=\"/images/mqghopt2-humming-moth.webp\" alt=\"test\" data-caption=\"test\"></p><h2>this is a test for the carousel</h2><blockquote>everytime i upload this should preview the image</blockquote><p><br></p>",
+      "category": "Action",
+      "featuredImage": "",
+      "date": "2026-06-16",
+      "author": "B Corridor Team",
+      "metaDescription": "",
+      "createdAt": "2026-06-16T10:19:24.016Z",
+      "updatedAt": "2026-06-16T10:19:24.016Z"
     }
   ]
 }
