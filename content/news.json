@@ -44,21 +44,6 @@
       "metaDescription": "The small but mighty creatures that keep the B Corridor's ecosystem healthy.",
       "createdAt": "2024-04-12T09:00:00.000Z",
       "updatedAt": "2024-04-12T09:00:00.000Z"
-    },
-    {
-      "id": "post-mqgg46hg",
-      "slug": "test-for-caption",
-      "status": "published",
-      "title": "test for caption",
-      "excerpt": "",
-      "body": "<div class=\"article-carousel\"><img src=\"/images/mqgg31q3-mushroom.webp\" alt=\"test\" data-caption=\"test\"><img src=\"/images/mqgg3388-planting.webp\" alt=\"test2\" data-caption=\"test2\"><img src=\"/images/mqgg34rw-moth.webp\" alt=\"test3\" data-caption=\"test3\"></p><p><br><br></p>",
-      "category": "Action",
-      "featuredImage": "",
-      "date": "2026-06-16",
-      "author": "B Corridor Team",
-      "metaDescription": "",
-      "createdAt": "2026-06-16T09:34:38.548Z",
-      "updatedAt": "2026-06-16T09:34:38.548Z"
     }
   ]
 }
