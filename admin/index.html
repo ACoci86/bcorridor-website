@@ -175,6 +175,7 @@
         <input type="file" id="f-featfile" accept="image/*" />
         <input type="hidden" id="f-featimg" />
         <img class="feat-preview" id="featPreview" alt="" />
+        <button type="button" class="btn btn--danger btn--sm" id="featRemove" style="display:none;margin-top:8px">✕ Remove featured image</button>
       </div>
 
       <div class="field">
@@ -292,7 +293,7 @@
     $('f-body').innerHTML = p?.body || '';
     normalizeEditorBlocks();
     $('f-status').value = p?.status || 'published';
-    const prev=$('featPreview'); if(p?.featuredImage){ prev.src=p.featuredImage; prev.style.display='block'; } else { prev.style.display='none'; }
+    const prev=$('featPreview'); if(p?.featuredImage){ prev.src=p.featuredImage; prev.style.display='block'; $('featRemove').style.display='inline-flex'; } else { prev.style.display='none'; $('featRemove').style.display='none'; }
     $('deleteBtn').style.display = id ? 'inline-flex' : 'none';
     $('listView').classList.add('hidden'); $('editView').classList.remove('hidden'); window.scrollTo(0,0);
   }
@@ -511,9 +512,14 @@
   }
 
   // featured image
+  $('featRemove').addEventListener('click',()=>{
+    $('f-featimg').value=''; $('f-featfile').value='';
+    const prev=$('featPreview'); prev.removeAttribute('src'); prev.style.display='none';
+    $('featRemove').style.display='none'; toast('Featured image removed');
+  });
   $('f-featfile').addEventListener('change',async e=>{
     const f=e.target.files[0]; if(!f)return; toast('Uploading image…');
-    try{ const {url,dataUrl}=await uploadImage(f); $('f-featimg').value=url; const prev=$('featPreview'); prev.src=dataUrl; prev.style.display='block'; toast('Image uploaded ✓'); }
+    try{ const {url,dataUrl}=await uploadImage(f); $('f-featimg').value=url; const prev=$('featPreview'); prev.src=dataUrl; prev.style.display='block'; $('featRemove').style.display='inline-flex'; toast('Image uploaded ✓'); }
     catch(err){ toast(err.message||'Upload failed',true); }
     e.target.value='';
   });
