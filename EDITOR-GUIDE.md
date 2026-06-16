@@ -97,9 +97,14 @@ your phone or computer.
 **A carousel (several photos people can swipe through):**
 1. Click **🎠 Carousel**.
 2. Select **several photos at once** (hold Ctrl/⌘ to pick more than one).
-3. For each photo it asks for an optional **caption** — type one or leave it blank.
+3. A box opens showing each photo with a **caption field underneath**. Type a
+   caption for any photo you like (or leave it blank), then click **Add to article**.
 4. The gallery appears as a green dashed box in the editor. That's normal — it
    looks proper on the live site.
+
+> 💡 **To change a caption later:** just click the green carousel box in the
+> editor. The same caption box reopens — edit the wording and click **Save
+> captions**. (To add or remove photos, delete the carousel and add it again.)
 
 ---
 

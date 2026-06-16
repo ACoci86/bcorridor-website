@@ -74,8 +74,8 @@
     .editor img{max-width:100%;border-radius:8px;margin:10px 0}
     .editor:empty:before{content:attr(data-placeholder);color:#aab;}
     /* carousel / video blocks as they appear inside the editor */
-    .editor .article-carousel{display:flex;flex-wrap:wrap;gap:6px;border:1px dashed var(--green);border-radius:10px;padding:14px 8px 8px;background:var(--sage);position:relative;margin:14px 0}
-    .editor .article-carousel:before{content:"🎠 Carousel";position:absolute;top:-9px;left:10px;background:#fff;font-size:11px;padding:0 6px;color:var(--green-dark)}
+    .editor .article-carousel{display:flex;flex-wrap:wrap;gap:6px;border:1px dashed var(--green);border-radius:10px;padding:14px 8px 8px;background:var(--sage);position:relative;margin:14px 0;cursor:pointer}
+    .editor .article-carousel:before{content:"🎠 Carousel — click to edit captions";position:absolute;top:-9px;left:10px;background:#fff;font-size:11px;padding:0 6px;color:var(--green-dark)}
     .editor .article-carousel img{width:90px;height:64px;object-fit:cover;border-radius:6px;margin:0}
     .editor .article-embed{border:1px dashed var(--green);border-radius:10px;padding:16px;background:var(--sage);color:var(--green-dark);font-size:13px;margin:14px 0;word-break:break-all}
     .editor .article-embed:before{content:"🎬 Video: ";font-weight:600}
@@ -91,6 +91,17 @@
     .toast.err{background:var(--danger)}
     .hidden{display:none!important}
     .empty{color:var(--muted);text-align:center;padding:40px}
+
+    /* caption modal */
+    .modal-backdrop{position:fixed;inset:0;background:rgba(22,49,31,.45);display:flex;align-items:center;justify-content:center;padding:20px;z-index:60}
+    .modal{background:#fff;border-radius:16px;max-width:540px;width:100%;max-height:85vh;overflow:auto;padding:24px;box-shadow:0 12px 44px rgba(0,0,0,.22)}
+    .modal h3{font-size:18px;color:var(--green-dark);margin-bottom:4px}
+    .modal .modal-sub{color:var(--muted);font-size:13px;margin:0 0 16px}
+    .cap-row{display:flex;gap:12px;align-items:center;margin-bottom:12px}
+    .cap-thumb{width:78px;height:56px;object-fit:cover;border-radius:8px;flex:0 0 auto;background:var(--sage)}
+    .cap-input{flex:1;min-width:0;padding:9px 11px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--forest)}
+    .cap-input:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(70,133,92,.18)}
+    .modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
   </style>
 </head>
 <body>
@@ -198,6 +209,19 @@
     </div>
   </div>
 
+  <!-- carousel caption modal -->
+  <div class="modal-backdrop hidden" id="capModal">
+    <div class="modal">
+      <h3 id="capTitle">Add carousel photos</h3>
+      <p class="modal-sub" id="capSub">Type a caption under each photo if you like — or leave it blank.</p>
+      <div id="capList"></div>
+      <div class="modal-actions">
+        <button class="btn btn--ghost" type="button" id="capCancel">Cancel</button>
+        <button class="btn" type="button" id="capConfirm">Add to article</button>
+      </div>
+    </div>
+  </div>
+
   <div class="toast" id="toast"></div>
 
   <script>
@@ -271,30 +295,121 @@
   document.querySelectorAll('.editor-toolbar [data-cmd]').forEach(b=>b.addEventListener('mousedown',e=>{e.preventDefault();document.execCommand(b.dataset.cmd,false,null);}));
   document.querySelectorAll('.editor-toolbar [data-block]').forEach(b=>b.addEventListener('mousedown',e=>{e.preventDefault();document.execCommand('formatBlock',false,b.dataset.block);}));
   $('linkBtn').addEventListener('mousedown',e=>{e.preventDefault();const url=prompt('Link address (https://…)');if(url)document.execCommand('createLink',false,url);});
-  $('imgBtn').addEventListener('mousedown',e=>{e.preventDefault();$('bodyImgFile').click();});
+  // ── selection-safe insertion ───────────────────────────────────────────────
+  // File pickers / modals steal focus from the editor, losing the caret. We save
+  // the cursor position when a toolbar button is pressed, then insert there via
+  // the DOM (reliable) instead of execCommand (flaky once focus is lost).
+  let savedRange = null;
+  function saveSel(){
+    const s = window.getSelection();
+    if (s && s.rangeCount && $('f-body').contains(s.anchorNode)) savedRange = s.getRangeAt(0).cloneRange();
+  }
+  function insertNode(node){
+    $('f-body').focus();
+    let range = (savedRange && $('f-body').contains(savedRange.commonAncestorContainer)) ? savedRange : null;
+    if (!range){ range = document.createRange(); range.selectNodeContents($('f-body')); range.collapse(false); }
+    range.deleteContents();
+    range.insertNode(node);
+    range.setStartAfter(node); range.collapse(true);
+    const s = window.getSelection(); s.removeAllRanges(); s.addRange(range);
+    savedRange = range.cloneRange();
+  }
+  function insertCarousel(items){ // items: [{url, caption}]
+    const car = document.createElement('div');
+    car.className = 'article-carousel';
+    car.setAttribute('contenteditable','false');
+    items.forEach(it => {
+      const img = document.createElement('img');
+      img.src = it.url; img.alt = it.caption || '';
+      if (it.caption) img.setAttribute('data-caption', it.caption);
+      car.appendChild(img);
+    });
+    insertNode(car);
+    const p = document.createElement('p'); p.innerHTML = '<br>';
+    car.after(p);
+  }
+
+  // single image
+  $('imgBtn').addEventListener('mousedown',e=>{e.preventDefault();saveSel();$('bodyImgFile').click();});
   $('bodyImgFile').addEventListener('change',async e=>{
-    const f=e.target.files[0]; if(!f)return; toast('Uploading image…');
-    try{ const url=await uploadImage(f); document.execCommand('insertHTML',false,`<img src="${url}" alt="">`); toast('Image added ✓'); }
+    const f=e.target.files[0]; e.target.value=''; if(!f)return; toast('Uploading image…');
+    try{ const url=await uploadImage(f); const img=document.createElement('img'); img.src=url; img.alt=''; insertNode(img); toast('Image added ✓'); }
     catch(err){ toast(err.message||'Upload failed',true); }
-    e.target.value='';
   });
 
-  // carousel — upload several images, insert a carousel block
-  $('carouselBtn').addEventListener('mousedown',e=>{e.preventDefault();$('carouselFiles').click();});
-  $('carouselFiles').addEventListener('change',async e=>{
-    const files=[...e.target.files]; if(!files.length)return;
-    toast('Uploading '+files.length+' image'+(files.length>1?'s':'')+'…');
+  // ── carousel: pick photos → caption modal → upload → insert ─────────────────
+  let capFiles = [];          // File[] when adding new photos
+  let capEditTarget = null;   // an existing .article-carousel when editing captions
+  let capObjUrls = [];        // object URLs for previews (revoked on close)
+
+  $('carouselBtn').addEventListener('mousedown',e=>{e.preventDefault();saveSel();$('carouselFiles').click();});
+  $('carouselFiles').addEventListener('change',e=>{
+    const files=[...e.target.files]; e.target.value='';
+    if(!files.length)return;
+    capEditTarget = null; capFiles = files;
+    capObjUrls = files.map(f=>URL.createObjectURL(f));
+    openCapModal(files.map((f,i)=>({previewUrl:capObjUrls[i], caption:''})),
+      'Add carousel photos', 'Type a caption under each photo if you like — or leave it blank.');
+  });
+
+  // click an existing carousel to edit its captions (no JS popups)
+  $('f-body').addEventListener('click',e=>{
+    const car = e.target.closest && e.target.closest('.article-carousel');
+    if(!car || !$('f-body').contains(car)) return;
+    capEditTarget = car; capFiles = []; capObjUrls = [];
+    const imgs=[...car.querySelectorAll('img')];
+    openCapModal(imgs.map(im=>({previewUrl:im.src, caption:im.getAttribute('data-caption')||''})),
+      'Edit captions', 'Update the caption under each photo, then save.');
+  });
+
+  function openCapModal(entries, title, sub){
+    $('capTitle').textContent = title;
+    $('capSub').textContent = sub;
+    const list=$('capList'); list.innerHTML='';
+    entries.forEach(en=>{
+      const row=document.createElement('div'); row.className='cap-row';
+      const img=document.createElement('img'); img.className='cap-thumb'; img.src=en.previewUrl; img.alt='';
+      const inp=document.createElement('input'); inp.className='cap-input'; inp.type='text';
+      inp.placeholder='Caption (optional)'; inp.value=en.caption||'';
+      row.appendChild(img); row.appendChild(inp); list.appendChild(row);
+    });
+    $('capConfirm').textContent = capEditTarget ? 'Save captions' : 'Add to article';
+    $('capModal').classList.remove('hidden');
+    const first=$('capList').querySelector('.cap-input'); if(first) first.focus();
+  }
+  function closeCapModal(){
+    $('capModal').classList.add('hidden');
+    capObjUrls.forEach(u=>URL.revokeObjectURL(u)); capObjUrls=[];
+    capFiles=[]; capEditTarget=null;
+  }
+  $('capCancel').addEventListener('click', closeCapModal);
+  $('capModal').addEventListener('mousedown', e=>{ if(e.target===$('capModal')) closeCapModal(); });
+  $('capConfirm').addEventListener('click', async ()=>{
+    const caps=[...$('capList').querySelectorAll('.cap-input')].map(i=>i.value.trim());
+    // edit mode — just update captions on the existing images, no upload
+    if(capEditTarget){
+      [...capEditTarget.querySelectorAll('img')].forEach((im,i)=>{
+        const c=caps[i]||'';
+        if(c){ im.setAttribute('data-caption',c); im.alt=c; } else { im.removeAttribute('data-caption'); im.alt=''; }
+      });
+      toast('Captions updated ✓'); closeCapModal(); return;
+    }
+    // new mode — upload every photo, then insert one carousel with all of them
+    const files=capFiles.slice();
+    if(!files.length){ closeCapModal(); return; }
+    const old=$('capConfirm').textContent; $('capConfirm').disabled=true;
     try{
-      const urls=[]; for(const f of files){ urls.push(await uploadImage(f)); }
-      const imgs=urls.map((u,i)=>{
-        const cap=(prompt(`Caption for image ${i+1} of ${urls.length} (optional — leave blank for none):`,'')||'').trim();
-        const safe=cap.replace(/"/g,'&quot;');
-        return `<img src="${u}" alt="${safe}"${cap?` data-caption="${safe}"`:''}>`;
-      }).join('');
-      document.execCommand('insertHTML',false,`<div class="article-carousel" contenteditable="false">${imgs}</div><p><br></p>`);
-      toast('Carousel added ✓');
+      const items=[];
+      for(let i=0;i<files.length;i++){
+        $('capConfirm').textContent='Uploading '+(i+1)+' of '+files.length+'…';
+        const url=await uploadImage(files[i]);
+        items.push({url, caption:caps[i]||''});
+      }
+      insertCarousel(items);
+      toast('Carousel added ✓ ('+items.length+' photos)');
+      closeCapModal();
     }catch(err){ toast(err.message||'Upload failed',true); }
-    e.target.value='';
+    finally{ $('capConfirm').disabled=false; $('capConfirm').textContent=old; }
   });
 
   // video — paste a YouTube/Vimeo link, insert an embed block
@@ -326,10 +441,12 @@
     e.target.value='';
   });
 
-  // resize client-side then upload
+  // resize + compress client-side, then upload
   async function uploadImage(file){
     const dataUrl = await resizeImage(file, 1400, 0.82);
-    const filename = (file.name.replace(/\.[^.]+$/,'')||'image') + '.webp';
+    // extension must match what the canvas actually produced (webp, or jpeg fallback)
+    const ext = dataUrl.startsWith('data:image/webp') ? '.webp' : '.jpg';
+    const filename = (file.name.replace(/\.[^.]+$/,'')||'image') + ext;
     const r = await fetch(fn('upload'),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({filename,dataBase64:dataUrl})});
     if(r.status===401){ showLogin(); throw new Error('Please sign in again'); }
     const d = await r.json(); if(!r.ok) throw new Error(d.error||'Upload failed');
@@ -341,7 +458,12 @@
       img.onload=()=>{ URL.revokeObjectURL(url);
         let w=img.naturalWidth,h=img.naturalHeight; if(w>maxW){h=Math.round(h*maxW/w);w=maxW;}
         const c=document.createElement('canvas'); c.width=w; c.height=h; c.getContext('2d').drawImage(img,0,0,w,h);
-        res(c.toDataURL('image/webp',quality));
+        // Some browsers (e.g. older Safari) can't encode WebP from a canvas and
+        // silently return a PNG — which ignores `quality` and stays large. Detect
+        // that and fall back to JPEG so the image is always actually compressed.
+        let out=c.toDataURL('image/webp',quality);
+        if(!out.startsWith('data:image/webp')) out=c.toDataURL('image/jpeg',quality);
+        res(out);
       };
       img.onerror=()=>{URL.revokeObjectURL(url);rej(new Error('Could not read image'));};
       img.src=url;
