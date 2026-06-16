@@ -1,4 +1,4 @@
-# B Corridor — website + news CMS
+# B Corridor: website + news CMS
 
 Website for the **B Corridor**, a Waterford biodiversity corridor project. It's a
 fast static site (HTML/CSS/JS) with a small Git-based CMS so the team can publish
