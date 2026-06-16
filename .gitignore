@@ -9,3 +9,6 @@ pics/
 
 # Local dev secrets — never commit
 .env
+
+# Private session log (contains credentials)
+PROJECT_LOG.md

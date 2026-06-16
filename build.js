@@ -2,7 +2,7 @@
 // 1. Copies the public site into /dist
 // 2. Reads content/news.json
 // 3. Generates dist/news/<slug>.html in the B Corridor article design
-// 4. Injects the News grid (blog.html) + homepage Events & News cards (index.html)
+// 4. Injects the News grid (news.html) + homepage Events & News cards (index.html)
 //
 // Generated pages reuse styles.css + article.css and the shared header / CTA /
 // footer lifted straight from article.html, so they always match the site.
@@ -16,7 +16,7 @@ const DIST = path.join(ROOT, 'dist');
 // folders/files that must NOT be published
 const EXCLUDE = new Set([
   'dist', 'content', 'functions', 'lib', 'tools', 'node_modules', '.git', '.github',
-  'build.js', 'SETUP.md', 'README.md', 'package.json', 'package-lock.json',
+  'build.js', 'SETUP.md', 'README.md', 'PROJECT_LOG.md', 'package.json', 'package-lock.json',
   '.gitignore', '.env', '.dev.vars', 'wrangler.toml', 'pics', 'testcms-main.zip',
 ]);
 
@@ -107,7 +107,7 @@ ${HEADER}
     <article class="article">
       <header class="article-hero" style="background-image:${HERO_OVERLAY}, url('${esc(img)}');" aria-label="${title}">
         <div class="article-hero__inner">
-          <a class="article-back" href="/blog.html">${BACK_SVG}Back to News</a>
+          <a class="article-back" href="/news.html">${BACK_SVG}Back to News</a>
           <span class="article-tag">${cat}</span>
           <h1>${title}</h1>
           <p class="article-meta">${byline}<time datetime="${esc(post.date)}">${fmtDate(post.date)}</time></p>
@@ -118,7 +118,7 @@ ${HEADER}
       <div class="article-body">
         ${post.body || '<p>No content yet.</p>'}
         <div class="article-pnav-row">${prevLink}${nextLink}</div>
-        <a class="article-back article-back--bottom" href="/blog.html">${BACK_SVG}Back to News</a>
+        <a class="article-back article-back--bottom" href="/news.html">${BACK_SVG}Back to News</a>
       </div>
     </article>
 ${CTA}
@@ -180,7 +180,7 @@ published.forEach((post, i) => {
 });
 
 // ── 5. grids ─────────────────────────────────────────────────────────────────
-inject('blog.html', published.length ? published.map(cardBlog).join('\n') : '        <p class="post-empty">No news yet, check back soon.</p>');
+inject('news.html', published.length ? published.map(cardBlog).join('\n') : '        <p class="post-empty">No news yet, check back soon.</p>');
 inject('index.html', published.slice(0, 3).map(cardHome).join('\n'));
 
 console.log('Build complete.');
