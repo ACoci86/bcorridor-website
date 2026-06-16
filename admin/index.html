@@ -332,12 +332,26 @@
     car.after(p);
   }
 
-  // Re-arm carousel/video blocks as non-editable after loading a saved post
-  // (cleanHtml strips contenteditable on save), and guarantee a typeable line
-  // after a trailing block so the article never becomes impossible to edit.
+  // Prepare a saved post for editing. Older/buggy saves can trap article text
+  // INSIDE a carousel (which is contenteditable=false → uneditable). So we lift
+  // any non-image content back out, re-lock the blocks as non-editable, and make
+  // sure there's an editable line after a trailing block.
   function normalizeEditorBlocks(){
     const fb=$('f-body');
-    fb.querySelectorAll('.article-carousel, .article-embed').forEach(el=>el.setAttribute('contenteditable','false'));
+    fb.querySelectorAll('.article-carousel').forEach(car=>{
+      let ref=car;
+      [...car.childNodes].forEach(n=>{
+        if (n.nodeType===1 && n.tagName==='IMG') return;            // keep images inside
+        const blank = (n.nodeType===3 && !n.textContent.trim()) || (n.nodeType===1 && n.tagName==='BR');
+        if (blank){ n.remove(); return; }                          // drop empty filler
+        if (n.nodeType===3){                                       // bare text → wrap in <p>, move out
+          const p=document.createElement('p'); p.textContent=n.textContent;
+          ref.after(p); ref=p; n.remove();
+        } else { ref.after(n); ref=n; }                            // element → move out, keep order
+      });
+      car.setAttribute('contenteditable','false');
+    });
+    fb.querySelectorAll('.article-embed').forEach(el=>el.setAttribute('contenteditable','false'));
     const last=fb.lastElementChild;
     if(last && (last.classList.contains('article-carousel')||last.classList.contains('article-embed'))){
       const p=document.createElement('p'); p.innerHTML='<br>'; fb.appendChild(p);
