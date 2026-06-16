@@ -14,5 +14,6 @@ export async function onRequestPost({ request, env }) {
   if (!ok) return json(401, { error: 'Invalid email or password' });
 
   const token = await signSession(email.toLowerCase(), env.SESSION_SECRET);
-  return json(200, { ok: true, email }, { 'Set-Cookie': sessionCookie(token, 60 * 60 * 8) });
+  // local sandbox runs over http, where Secure cookies are dropped — omit Secure there only
+  return json(200, { ok: true, email }, { 'Set-Cookie': sessionCookie(token, 60 * 60 * 8, !env.DEV_MOCK) });
 }

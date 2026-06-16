@@ -16,6 +16,9 @@ export async function onRequestPost({ request, env }) {
   const { filename, dataBase64 } = body;
   if (!filename || !dataBase64) return json(400, { error: 'Missing file' });
 
+  // local sandbox: skip GitHub, echo the image straight back so it previews offline
+  if (env.DEV_MOCK) return json(200, { ok: true, url: dataBase64 });
+
   const base64 = dataBase64.includes(',') ? dataBase64.split(',')[1] : dataBase64;
   if (base64.length > 7_000_000) return json(413, { error: 'Image too large (max ~5MB)' });
 

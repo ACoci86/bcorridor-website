@@ -14,8 +14,11 @@ export async function onRequestPost({ request, env }) {
   try { body = await request.json(); } catch { return json(400, { error: 'Bad request' }); }
 
   try {
-    const { sha, content } = await ghGetFile(env, 'content/news.json');
-    const data = content ? JSON.parse(content) : { posts: [] };
+    // local sandbox: keep posts in memory, no GitHub
+    const mock = !!env.DEV_MOCK;
+    let sha, data;
+    if (mock) { data = { posts: globalThis.__DEV_POSTS || (globalThis.__DEV_POSTS = []) }; }
+    else { const r = await ghGetFile(env, 'content/news.json'); sha = r.sha; data = r.content ? JSON.parse(r.content) : { posts: [] }; }
     const posts = data.posts || [];
     const now = new Date().toISOString();
 
@@ -53,6 +56,7 @@ export async function onRequestPost({ request, env }) {
     }
 
     data.posts = posts;
+    if (mock) { globalThis.__DEV_POSTS = posts; return json(200, { ok: true }); }
     const encoded = toBase64(JSON.stringify(data, null, 2));
     await ghPutFile(env, 'content/news.json', encoded, `CMS: update news (${email})`, sha || undefined);
     return json(200, { ok: true });

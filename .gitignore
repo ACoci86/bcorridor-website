@@ -12,3 +12,9 @@ pics/
 
 # Private session log (contains credentials)
 PROJECT_LOG.md
+
+# Local dev secrets for wrangler — never commit
+.dev.vars
+
+# wrangler local cache/temp
+.wrangler/

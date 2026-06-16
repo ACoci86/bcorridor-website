@@ -101,7 +101,11 @@
     .cap-thumb{width:78px;height:56px;object-fit:cover;border-radius:8px;flex:0 0 auto;background:var(--sage)}
     .cap-input{flex:1;min-width:0;padding:9px 11px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--forest)}
     .cap-input:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(70,133,92,.18)}
+    .cap-remove{flex:0 0 auto;border:1px solid var(--line);background:#fff;color:var(--danger);border-radius:8px;padding:7px 10px;font-size:14px;line-height:1;cursor:pointer}
+    .cap-remove:hover{background:#fbeae7;border-color:var(--danger)}
+    .cap-empty{color:var(--muted);font-size:13px;padding:12px 2px}
     .modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
+    .img-remove{position:fixed;z-index:70;border:0;background:var(--danger);color:#fff;border-radius:8px;padding:7px 11px;font-size:13px;font-weight:600;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.3)}
   </style>
 </head>
 <body>
@@ -216,11 +220,14 @@
       <p class="modal-sub" id="capSub">Type a caption under each photo if you like — or leave it blank.</p>
       <div id="capList"></div>
       <div class="modal-actions">
+        <button class="btn btn--danger" type="button" id="capDelete" style="margin-right:auto;display:none">Delete carousel</button>
         <button class="btn btn--ghost" type="button" id="capCancel">Cancel</button>
         <button class="btn" type="button" id="capConfirm">Add to article</button>
       </div>
     </div>
   </div>
+
+  <button class="img-remove hidden" type="button" id="imgRemove">✕ Remove image</button>
 
   <div class="toast" id="toast"></div>
 
@@ -315,6 +322,20 @@
     const s = window.getSelection(); s.removeAllRanges(); s.addRange(range);
     savedRange = range.cloneRange();
   }
+  // Insert a block-level node as a DIRECT child of the editor (never nested inside
+  // a paragraph), so a carousel/video can never wrap the surrounding article text.
+  function insertBlock(node){
+    const fb=$('f-body'); fb.focus();
+    let range = (savedRange && fb.contains(savedRange.commonAncestorContainer)) ? savedRange : null;
+    if(!range){ fb.appendChild(node); }
+    else {
+      let n = range.startContainer;            // climb to the top-level child of the editor
+      while(n && n!==fb && n.parentNode!==fb) n=n.parentNode;
+      if(n && n!==fb && n.parentNode===fb) n.after(node); else fb.appendChild(node);
+    }
+    const r=document.createRange(); r.setStartAfter(node); r.collapse(true);
+    const s=window.getSelection(); s.removeAllRanges(); s.addRange(r); savedRange=r.cloneRange();
+  }
   function insertCarousel(items){ // items: [{url, dataUrl, caption}]
     const car = document.createElement('div');
     car.className = 'article-carousel';
@@ -327,7 +348,7 @@
       if (it.caption) img.setAttribute('data-caption', it.caption);
       car.appendChild(img);
     });
-    insertNode(car);
+    insertBlock(car);
     const p = document.createElement('p'); p.innerHTML = '<br>';
     car.after(p);
   }
@@ -366,80 +387,107 @@
     catch(err){ toast(err.message||'Upload failed',true); }
   });
 
-  // ── carousel: pick photos → caption modal → upload → insert ─────────────────
-  let capFiles = [];          // File[] when adding new photos
-  let capEditTarget = null;   // an existing .article-carousel when editing captions
-  let capObjUrls = [];        // object URLs for previews (revoked on close)
+  // ── carousel manager: add photos / edit captions / remove photos ────────────
+  let capMode = 'new';        // 'new' = uploading picked files, 'edit' = existing carousel
+  let capEditTarget = null;   // the .article-carousel being edited
+  let capEntries = [];        // working list: {previewUrl, caption, file?, imgEl?, objUrl?}
 
   $('carouselBtn').addEventListener('mousedown',e=>{e.preventDefault();saveSel();$('carouselFiles').click();});
   $('carouselFiles').addEventListener('change',e=>{
     const files=[...e.target.files]; e.target.value='';
     if(!files.length)return;
-    capEditTarget = null; capFiles = files;
-    capObjUrls = files.map(f=>URL.createObjectURL(f));
-    openCapModal(files.map((f,i)=>({previewUrl:capObjUrls[i], caption:''})),
-      'Add carousel photos', 'Type a caption under each photo if you like — or leave it blank.');
+    capMode='new'; capEditTarget=null;
+    capEntries = files.map(f=>{ const objUrl=URL.createObjectURL(f); return {previewUrl:objUrl, objUrl, caption:'', file:f}; });
+    openCapModal('Add carousel photos', 'Add a caption under each photo (optional), or remove any you don’t want.');
   });
 
-  // click an existing carousel to edit its captions (no JS popups)
+  // click a carousel to manage it; click a normal image to remove it
   $('f-body').addEventListener('click',e=>{
     const car = e.target.closest && e.target.closest('.article-carousel');
-    if(!car || !$('f-body').contains(car)) return;
-    capEditTarget = car; capFiles = []; capObjUrls = [];
-    const imgs=[...car.querySelectorAll('img')];
-    openCapModal(imgs.map(im=>({previewUrl:im.src, caption:im.getAttribute('data-caption')||''})),
-      'Edit captions', 'Update the caption under each photo, then save.');
+    if(car && $('f-body').contains(car)){
+      capMode='edit'; capEditTarget=car; capEntries=[];
+      [...car.querySelectorAll('img')].forEach(im=>capEntries.push({previewUrl:im.src, caption:im.getAttribute('data-caption')||'', imgEl:im}));
+      openCapModal('Manage carousel photos', 'Edit captions, remove photos, or delete the whole carousel.');
+      return;
+    }
+    const embed = e.target.closest && e.target.closest('.article-embed');
+    if(embed && $('f-body').contains(embed)){ showElRemove(embed,'video'); return; }
+    const img = (e.target.tagName==='IMG') ? e.target : null;
+    if(img && $('f-body').contains(img) && !img.closest('.article-carousel')){ showElRemove(img,'image'); return; }
+    hideImgRemove();
   });
 
-  function openCapModal(entries, title, sub){
-    $('capTitle').textContent = title;
-    $('capSub').textContent = sub;
+  function syncCaps(){
+    [...$('capList').querySelectorAll('.cap-input')].forEach((inp,i)=>{ if(capEntries[i]) capEntries[i].caption=inp.value.trim(); });
+  }
+  function renderCapList(){
     const list=$('capList'); list.innerHTML='';
-    entries.forEach(en=>{
+    if(!capEntries.length){ const m=document.createElement('div'); m.className='cap-empty'; m.textContent='No photos left. Cancel, or delete the carousel.'; list.appendChild(m); }
+    capEntries.forEach((en,idx)=>{
       const row=document.createElement('div'); row.className='cap-row';
       const img=document.createElement('img'); img.className='cap-thumb'; img.src=en.previewUrl; img.alt='';
       const inp=document.createElement('input'); inp.className='cap-input'; inp.type='text';
       inp.placeholder='Caption (optional)'; inp.value=en.caption||'';
-      row.appendChild(img); row.appendChild(inp); list.appendChild(row);
+      const rm=document.createElement('button'); rm.type='button'; rm.className='cap-remove'; rm.textContent='✕'; rm.title='Remove this photo';
+      rm.addEventListener('click',()=>{ syncCaps(); const gone=capEntries.splice(idx,1)[0]; if(gone && gone.objUrl) URL.revokeObjectURL(gone.objUrl); renderCapList(); });
+      row.appendChild(img); row.appendChild(inp); row.appendChild(rm); list.appendChild(row);
     });
-    $('capConfirm').textContent = capEditTarget ? 'Save captions' : 'Add to article';
+  }
+  function openCapModal(title, sub){
+    $('capTitle').textContent=title; $('capSub').textContent=sub;
+    renderCapList();
+    $('capConfirm').textContent = capMode==='edit' ? 'Save changes' : 'Add to article';
+    $('capDelete').style.display = capMode==='edit' ? 'inline-flex' : 'none';
     $('capModal').classList.remove('hidden');
     const first=$('capList').querySelector('.cap-input'); if(first) first.focus();
   }
   function closeCapModal(){
     $('capModal').classList.add('hidden');
-    capObjUrls.forEach(u=>URL.revokeObjectURL(u)); capObjUrls=[];
-    capFiles=[]; capEditTarget=null;
+    capEntries.forEach(en=>{ if(en.objUrl) URL.revokeObjectURL(en.objUrl); });
+    capEntries=[]; capEditTarget=null;
   }
   $('capCancel').addEventListener('click', closeCapModal);
   $('capModal').addEventListener('mousedown', e=>{ if(e.target===$('capModal')) closeCapModal(); });
+  $('capDelete').addEventListener('click', ()=>{ if(capEditTarget) capEditTarget.remove(); toast('Carousel deleted'); closeCapModal(); });
+
   $('capConfirm').addEventListener('click', async ()=>{
-    const caps=[...$('capList').querySelectorAll('.cap-input')].map(i=>i.value.trim());
-    // edit mode — just update captions on the existing images, no upload
-    if(capEditTarget){
-      [...capEditTarget.querySelectorAll('img')].forEach((im,i)=>{
-        const c=caps[i]||'';
-        if(c){ im.setAttribute('data-caption',c); im.alt=c; } else { im.removeAttribute('data-caption'); im.alt=''; }
-      });
-      toast('Captions updated ✓'); closeCapModal(); return;
+    syncCaps();
+    // edit mode — apply captions, drop removed photos, no upload
+    if(capMode==='edit'){
+      const keep=new Set(capEntries.map(en=>en.imgEl));
+      [...capEditTarget.querySelectorAll('img')].forEach(im=>{ if(!keep.has(im)) im.remove(); });
+      capEntries.forEach(en=>{ const c=en.caption||''; if(c){ en.imgEl.setAttribute('data-caption',c); en.imgEl.alt=c; } else { en.imgEl.removeAttribute('data-caption'); en.imgEl.alt=''; } });
+      if(!capEditTarget.querySelector('img')) capEditTarget.remove();   // emptied → drop it
+      toast('Carousel updated ✓'); closeCapModal(); return;
     }
-    // new mode — upload every photo, then insert one carousel with all of them
-    const files=capFiles.slice();
-    if(!files.length){ closeCapModal(); return; }
-    const old=$('capConfirm').textContent; $('capConfirm').disabled=true;
+    // new mode — upload remaining photos, insert one carousel
+    const entries=capEntries.slice();
+    if(!entries.length){ closeCapModal(); return; }
+    const old=$('capConfirm').textContent; $('capConfirm').disabled=true; $('capDelete').disabled=true;
     try{
       const items=[];
-      for(let i=0;i<files.length;i++){
-        $('capConfirm').textContent='Uploading '+(i+1)+' of '+files.length+'…';
-        const {url,dataUrl}=await uploadImage(files[i]);
-        items.push({url, dataUrl, caption:caps[i]||''});
+      for(let i=0;i<entries.length;i++){
+        $('capConfirm').textContent='Uploading '+(i+1)+' of '+entries.length+'…';
+        const {url,dataUrl}=await uploadImage(entries[i].file);
+        items.push({url, dataUrl, caption:entries[i].caption||''});
       }
       insertCarousel(items);
       toast('Carousel added ✓ ('+items.length+' photos)');
       closeCapModal();
     }catch(err){ toast(err.message||'Upload failed',true); }
-    finally{ $('capConfirm').disabled=false; $('capConfirm').textContent=old; }
+    finally{ $('capConfirm').disabled=false; $('capDelete').disabled=false; $('capConfirm').textContent=old; }
   });
+
+  // floating "Remove" button for a single image OR a video embed
+  let imgRemoveTarget=null;
+  function showElRemove(el,label){
+    imgRemoveTarget=el; const b=$('imgRemove'); b.textContent='✕ Remove '+label;
+    const r=el.getBoundingClientRect();
+    b.style.top=(r.top+8)+'px'; b.style.left=(r.left+8)+'px'; b.classList.remove('hidden');
+  }
+  function hideImgRemove(){ $('imgRemove').classList.add('hidden'); imgRemoveTarget=null; }
+  $('imgRemove').addEventListener('click',()=>{ if(imgRemoveTarget) imgRemoveTarget.remove(); hideImgRemove(); });
+  window.addEventListener('scroll',hideImgRemove,true);
 
   // video — paste a YouTube/Vimeo link, insert an embed block
   $('videoBtn').addEventListener('mousedown',e=>{
