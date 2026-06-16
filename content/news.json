@@ -74,6 +74,21 @@
       "metaDescription": "",
       "createdAt": "2026-06-16T11:29:28.841Z",
       "updatedAt": "2026-06-16T11:29:28.841Z"
+    },
+    {
+      "id": "post-mqgklgk4",
+      "slug": "this-is-a-test",
+      "status": "draft",
+      "title": "this is a test",
+      "excerpt": "",
+      "body": "this is a test",
+      "category": "Action",
+      "featuredImage": "",
+      "date": "2026-06-16",
+      "author": "B Corridor Team",
+      "metaDescription": "",
+      "createdAt": "2026-06-16T11:40:03.220Z",
+      "updatedAt": "2026-06-16T11:40:03.220Z"
     }
   ]
 }
