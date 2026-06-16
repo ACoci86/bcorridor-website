@@ -51,14 +51,14 @@
       "status": "draft",
       "title": "Test",
       "excerpt": "",
-      "body": "<div class=\"article-carousel\"><img src=\"/images/mqgjm6vy-planting.webp\" alt=\"\"><img src=\"/images/mqgjm917-mushroom.webp\" alt=\"\"></p><p><br></p><p></p><p><br></p>",
+      "body": "<div class=\"article-carousel\"><img src=\"/images/mqgjm6vy-planting.webp\" alt=\"\"><img src=\"/images/mqgjm917-mushroom.webp\" alt=\"\"></p><p></p><p><br></p><p></p><p>this is a test post</p>",
       "category": "Action",
       "featuredImage": "/images/mqgjnakd-humming-moth.webp",
       "date": "2026-06-16",
       "author": "B Corridor Team",
       "metaDescription": "",
       "createdAt": "2026-06-16T11:14:56.124Z",
-      "updatedAt": "2026-06-16T11:14:56.124Z"
+      "updatedAt": "2026-06-16T11:15:08.966Z"
     }
   ]
 }
