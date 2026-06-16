@@ -44,21 +44,6 @@
       "metaDescription": "The small but mighty creatures that keep the B Corridor's ecosystem healthy.",
       "createdAt": "2024-04-12T09:00:00.000Z",
       "updatedAt": "2024-04-12T09:00:00.000Z"
-    },
-    {
-      "id": "post-mqgh81ik",
-      "slug": "this-is-just-a-test-for-the-carousel",
-      "status": "published",
-      "title": "THIS IS JUST A TEST FOR THE CAROUSEL",
-      "excerpt": "THIS IS JUST A TEST FOR THE CAROUSEL",
-      "body": "<div class=\"article-carousel\"><img src=\"/images/mqgh7bb7-walking2.webp\" alt=\"test1\" data-caption=\"test1\"><img src=\"/images/mqgh7coo-bugmotel.webp\" alt=\"test2\" data-caption=\"test2\"><img src=\"/images/mqgh7e4r-planting2.webp\" alt=\"test3\" data-caption=\"test3\"></p><h2>THIS IS JUST A TEST FOR THE CAROUSEL</h2><p><br></p>",
-      "category": "Action",
-      "featuredImage": "",
-      "date": "2026-06-16",
-      "author": "B Corridor Team",
-      "metaDescription": "",
-      "createdAt": "2026-06-16T10:05:38.348Z",
-      "updatedAt": "2026-06-16T10:05:38.348Z"
     }
   ]
 }
