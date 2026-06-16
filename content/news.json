@@ -44,21 +44,6 @@
       "metaDescription": "The small but mighty creatures that keep the B Corridor's ecosystem healthy.",
       "createdAt": "2024-04-12T09:00:00.000Z",
       "updatedAt": "2024-04-12T09:00:00.000Z"
-    },
-    {
-      "id": "post-mqggt6km",
-      "slug": "test-carousel",
-      "status": "published",
-      "title": "TEST carousel",
-      "excerpt": "TEST carousel",
-      "body": "<div class=\"article-carousel\"><img src=\"/images/mqggsa3m-humming-moth.webp\" alt=\"test moth\" data-caption=\"test moth\"><img src=\"/images/mqggsbhy-walking.webp\" alt=\"test people 1\" data-caption=\"test people 1\"><img src=\"/images/mqggsd0r-walking2.webp\" alt=\"test people 2\" data-caption=\"test people 2\"></p><h2>TEST carousel</h2>",
-      "category": "Action",
-      "featuredImage": "",
-      "date": "2026-06-16",
-      "author": "B Corridor Team",
-      "metaDescription": "",
-      "createdAt": "2026-06-16T09:54:05.062Z",
-      "updatedAt": "2026-06-16T09:54:05.062Z"
     }
   ]
 }
