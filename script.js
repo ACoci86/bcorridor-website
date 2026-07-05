@@ -68,6 +68,19 @@
   video.addEventListener("loadeddata", play);
   video.addEventListener("canplay", play);
 
+  // If the media element errors out, hide it again (the section's CSS
+  // background poster shows through) and retry the load once.
+  let retried = false;
+  video.addEventListener("error", () => {
+    video.classList.remove("is-playing");
+    if (retried) return;
+    retried = true;
+    setTimeout(() => {
+      video.load();
+      play();
+    }, 1000);
+  });
+
   // Fallbacks: first user interaction, or returning to the tab.
   ["pointerdown", "touchstart", "keydown", "scroll"].forEach((ev) =>
     window.addEventListener(ev, play, { once: true, passive: true }),

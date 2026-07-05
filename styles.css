@@ -3,7 +3,7 @@
    Organised by component. The brand palette and layout tokens
    live in :root; everything else references them by name.
    ============================================================ */
-
+ 
 :root {
   /* Typography */
   --font-display: 'Gaegu', sans-serif;          /* headings + UI labels */
@@ -11,7 +11,7 @@
   --font-serif-display: 'Cormorant Garamond', Georgia, serif; /* honeycomb titles */
   --font-serif-body: 'Libre Baskerville', Georgia, serif;     /* honeycomb body */
   --font-hand: 'Gaegu', sans-serif;              /* hand-drawn numerals; sans fallback flashes far less than cursive */
-
+ 
   /* Brand palette */
   --forest: #16311f;            /* darkest leaf green — headings & body */
   --green: #46855c;             /* primary green — buttons & accents */
@@ -27,56 +27,56 @@
   --cream-panel: #f1f3e6;       /* framed panel background */
   --footer-bg: #eef1e4;
   --white: #ffffff;
-
+ 
   /* Text tones */
   --text-body: #16311f;
   --text-muted: #3c5b50;
   --text-muted-2: #5a7068;
   --text-muted-3: #6a807a;
-
+ 
   /* Hairline borders */
   --hairline: rgba(22, 49, 31, 0.12);
   --hairline-strong: rgba(22, 49, 31, 0.14);
   --hairline-brown: rgba(137, 108, 75, 0.20);
-
+ 
   /* Layout */
   --page-gutter: 5cm;           /* desktop side margin */
   --announce-h: 80px;
   --section-y: clamp(64px, 7vw, 112px);
   --section-y-tight: clamp(38px, 4.5vw, 72px);
 }
-
+ 
 body.announce-closed { --announce-h: 0px; }
-
+ 
 /* ───────────── Reset & base ───────────── */
 *,
 *::before,
 *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+ 
 html {
   scroll-behavior: smooth;
   scroll-padding-top: calc(92px + var(--announce-h));
 }
-
+ 
 body {
   min-height: 100vh;
   font-family: var(--font-body);
   color: var(--text-body);
   background: var(--cream);
 }
-
+ 
 img { max-width: 100%; }
-
+ 
 h1, h2, h3, h4, h5 { font-family: var(--font-display); font-weight: 500; }
 h1 { font-size: clamp(2.75rem, 6vw, 5.25rem); }
 h2 { font-size: clamp(2.25rem, 5vw, 3.875rem); }
 h3 { font-size: clamp(1.25rem, 2.4vw, 1.6rem); }
 h4 { font-size: clamp(1rem, 2vw, 1.25rem); }
-
+ 
 p { font-family: var(--font-body); font-size: clamp(1rem, 1.6vw, 1.125rem); }
-
+ 
 button, input, textarea, select { font: inherit; }
-
+ 
 /* ───────────── Accessibility helpers ───────────── */
 .visually-hidden,
 .skip-link:not(:focus):not(:focus-visible) {
@@ -88,7 +88,7 @@ button, input, textarea, select { font: inherit; }
   white-space: nowrap;
   border: 0;
 }
-
+ 
 .skip-link {
   position: fixed;
   top: 14px; left: 14px;
@@ -101,13 +101,13 @@ button, input, textarea, select { font: inherit; }
   text-decoration: none;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22);
 }
-
+ 
 :where(a, button, input, textarea, select):focus-visible {
   outline: 3px solid rgba(137, 108, 75, 0.85);
   outline-offset: 4px;
   border-radius: 10px;
 }
-
+ 
 /* Offset anchor jumps so fixed header doesn't cover the target */
 .anchor-target {
   position: absolute;
@@ -116,7 +116,7 @@ button, input, textarea, select { font: inherit; }
   width: 1px; height: 1px;
   pointer-events: none;
 }
-
+ 
 /* ============================================================
    BUTTONS
    ============================================================ */
@@ -139,7 +139,7 @@ button, input, textarea, select { font: inherit; }
 .btn:hover,
 .btn:focus-visible { transform: translateY(2px); box-shadow: 0 3px 0 var(--btn-shadow, #2f6d4d); }
 .btn:active { transform: translateY(5px); box-shadow: 0 0 0 var(--btn-shadow, #2f6d4d); }
-
+ 
 /* Primary — solid green */
 .btn--primary {
   --btn-shadow: #2f6d4d;
@@ -151,7 +151,7 @@ button, input, textarea, select { font: inherit; }
 }
 .btn--primary:hover,
 .btn--primary:focus-visible { background: var(--green-dark); }
-
+ 
 /* Secondary — dusty blue (over light sections) */
 .btn--secondary {
   --btn-shadow: #5a86a3;
@@ -168,7 +168,7 @@ button, input, textarea, select { font: inherit; }
   border-color: var(--blue-dark);
   color: var(--forest);
 }
-
+ 
 /* Donate — green to match primary CTA, label + heart */
 .btn--donate {
   --btn-shadow: #2f6d4d;
@@ -183,7 +183,7 @@ button, input, textarea, select { font: inherit; }
 }
 .btn--donate:hover,
 .btn--donate:focus-visible { background: var(--green-dark); }
-
+ 
 .donate-label {
   order: 1;
   border-bottom: 1.5px solid transparent;
@@ -203,7 +203,7 @@ button, input, textarea, select { font: inherit; }
   display: block;
   fill: currentColor;   /* matches the button's text color */
 }
-
+ 
 /* Heartbeat the Donate heart on hover */
 @keyframes heart-pulse {
   0%   { transform: scale(1); }
@@ -221,7 +221,7 @@ button, input, textarea, select { font: inherit; }
 }
 .btn:hover .donate-label,
 .btn:focus-visible .donate-label { border-bottom-color: currentColor; }
-
+ 
 /* Map — solid green pill */
 .btn--map {
   --btn-shadow: #2f6d4d;
@@ -234,7 +234,7 @@ button, input, textarea, select { font: inherit; }
 }
 .btn--map:hover,
 .btn--map:focus-visible { background: var(--green-dark); color: var(--white); }
-
+ 
 /* News — white pill on the green panel */
 .btn--news {
   --btn-shadow: #b7c7a8;
@@ -248,7 +248,7 @@ button, input, textarea, select { font: inherit; }
 }
 .btn--news:hover,
 .btn--news:focus-visible { background: var(--white); color: var(--forest); }
-
+ 
 /* CTA buttons (on the green CTA panel) */
 .btn--cta-solid,
 .btn--cta-outline {
@@ -268,7 +268,7 @@ button, input, textarea, select { font: inherit; }
 .btn--cta-solid:focus-visible { --btn-shadow: #2f6d4d; background: var(--green); color: var(--white); border-color: var(--white); }
 .btn--cta-solid .donate-label,
 .btn--cta-solid .donate-heart { color: inherit; }
-
+ 
 .btn--cta-outline {
   --btn-shadow: #2f6d4d;   /* dark green ledge so it reads on the green section */
   background: transparent;
@@ -279,7 +279,7 @@ button, input, textarea, select { font: inherit; }
 .btn--cta-outline:hover,
 .btn--cta-outline:focus-visible,
 .btn--cta-outline:active { --btn-shadow: #2f6d4d; background: var(--cream); color: #2f6d4d; }
-
+ 
 /* Trailing circular arrow badge (Explore the corridor / map / news) */
 .btn-icon {
   display: inline-flex;
@@ -310,7 +310,7 @@ button, input, textarea, select { font: inherit; }
 :focus-visible > .btn-icon .cta-arrow { transform: translateX(3px); }
 /* On the cream news button, invert: green circle, white arrow */
 .btn--news .btn-icon { background: var(--green); color: var(--white); }
-
+ 
 /* Trailing plant sprig icon — sits right of the label, follows button text color */
 .btn-leaf {
   display: inline-flex;
@@ -324,7 +324,7 @@ button, input, textarea, select { font: inherit; }
   display: block;
   fill: currentColor;
 }
-
+ 
 /* ============================================================
    SHARED ACCENTS
    ============================================================ */
@@ -347,7 +347,7 @@ button, input, textarea, select { font: inherit; }
   transition: background-color .2s ease;
 }
 .kicker:hover { background: var(--brown-dark); }
-
+ 
 /* ============================================================
    HEADER — announcement + transparent navbar
    ============================================================ */
@@ -371,7 +371,7 @@ button, input, textarea, select { font: inherit; }
   -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 14px 36px rgba(70, 133, 92, 0.12);
 }
-
+ 
 /* Announcement bar */
 .announce {
   position: relative;
@@ -388,7 +388,7 @@ button, input, textarea, select { font: inherit; }
   text-align: center;
 }
 .announce.is-hidden { display: none; }
-
+ 
 .announce-content {
   display: inline-flex;
   align-items: center;
@@ -414,7 +414,7 @@ button, input, textarea, select { font: inherit; }
 .announce-icon--bee { filter: brightness(0) invert(1); }
 .announce-icon--art { width: 52px; height: 56px; flex-basis: 52px; }
 .announce-icon--plant { width: 46px; height: 50px; flex-basis: 46px; }
-
+ 
 .announce-close {
   position: absolute;
   right: 16px; top: 50%;
@@ -437,7 +437,7 @@ button, input, textarea, select { font: inherit; }
   background: rgba(255, 255, 255, 0.26);
   transform: translateY(-50%) scale(1.04);
 }
-
+ 
 /* Navbar */
 .navbar {
   max-width: 1280px;
@@ -449,7 +449,7 @@ button, input, textarea, select { font: inherit; }
   gap: 24px;
   transition: padding .55s cubic-bezier(.22, 1, .36, 1);
 }
-
+ 
 /* Brand — full / short logo crossfade on scroll */
 .brand {
   position: relative;
@@ -469,14 +469,14 @@ button, input, textarea, select { font: inherit; }
   will-change: height, transform;
 }
 .brand-logo--full { height: 90px; opacity: 1; transform: scale(1); }
-
+ 
 .site-header.is-scrolled .brand,
 .site-header.menu-is-open .brand { min-width: 74px; }
 .site-header.is-scrolled .navbar,
 .site-header.menu-is-open .navbar { padding-top: 6px; padding-bottom: 6px; }
 .site-header.is-scrolled .brand-logo--full,
 .site-header.menu-is-open .brand-logo--full { height: 56px; }
-
+ 
 /* Nav links — white over the hero, forest once scrolled */
 .nav-links {
   margin-left: auto;
@@ -510,14 +510,14 @@ button, input, textarea, select { font: inherit; }
 }
 .nav-links a:hover::after,
 .nav-links a:focus-visible::after { transform: scaleX(1); }
-
+ 
 .site-header.is-scrolled .nav-links a,
 .site-header.menu-is-open .nav-links a { color: #386b49; text-shadow: none; }
 .site-header.is-scrolled .nav-links a::after,
 .site-header.menu-is-open .nav-links a::after { background: var(--green); }
-
+ 
 .nav-donate-link { display: none; }
-
+ 
 .mobile-menu {
   display: none;
   position: relative;
@@ -547,7 +547,7 @@ button, input, textarea, select { font: inherit; }
 .site-header.menu-is-open .mobile-menu span    { opacity: 0; }
 .site-header.menu-is-open .mobile-menu::before { transform: translate(-50%, -50%) rotate(45deg); }
 .site-header.menu-is-open .mobile-menu::after  { transform: translate(-50%, -50%) rotate(-45deg); }
-
+ 
 /* ============================================================
    HERO
    ============================================================ */
@@ -563,21 +563,18 @@ button, input, textarea, select { font: inherit; }
   isolation: isolate;
   z-index: 1;
 }
-
+ 
 .hero-video {
   position: absolute;
   inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
   object-position: center;
-  z-index: -2;
+  z-index: 0;
   pointer-events: none;
   /* Hidden until it's actually playing, then fade in over the poster. */
   opacity: 0;
   transition: opacity .7s ease;
-  transform: translate3d(0, 0, 0) scale(1.001);
-  backface-visibility: hidden;
-  will-change: transform;
 }
 .hero-video.is-playing { opacity: 1; }
 /* On tablet/laptop the centered crop hides the bee — nudge the window a touch. */
@@ -587,21 +584,22 @@ button, input, textarea, select { font: inherit; }
 @media (max-width: 900px) {
   .hero-video { object-position: 68% center; }
 }
-
+ 
 /* Legibility gradient between video and copy */
 .site-hero::after {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: 1;
   pointer-events: none;
   background:
     linear-gradient(90deg, rgba(0, 0, 0, .35) 0%, rgba(0, 0, 0, .15) 45%, rgba(0, 0, 0, 0) 75%),
     linear-gradient(180deg, rgba(0, 0, 0, .15) 0%, rgba(0, 0, 0, 0) 40%);
 }
-
+ 
 .hero-inner {
   position: relative;
+  z-index: 2;
   width: 100%;
   max-width: 1280px;
   height: 100%;
@@ -610,13 +608,13 @@ button, input, textarea, select { font: inherit; }
   display: flex;
   align-items: flex-start;
 }
-
+ 
 .hero-copy {
   display: grid;
   gap: 22px;
   width: min(86vw, 460px);
 }
-
+ 
 .site-hero h1 {
   color: var(--white);
   font-size: clamp(2.6rem, 9vw, 3.8rem);
@@ -624,7 +622,7 @@ button, input, textarea, select { font: inherit; }
   letter-spacing: -0.02em;
   text-shadow: 0 2px 18px rgba(0, 0, 0, 0.45);
 }
-
+ 
 .hero-copy p {
   max-width: 470px;
   color: rgba(255, 255, 255, 0.95);
@@ -632,7 +630,7 @@ button, input, textarea, select { font: inherit; }
   line-height: 1.5;
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
 }
-
+ 
 .hero-actions {
   display: flex;
   align-items: center;
@@ -640,7 +638,7 @@ button, input, textarea, select { font: inherit; }
   flex-wrap: wrap;
   margin-top: 6px;
 }
-
+ 
 /* Hero secondary button is a glass pill so it reads over the video */
 .site-hero .btn--secondary {
   --btn-shadow: rgba(0, 0, 0, 0.3);
@@ -657,7 +655,7 @@ button, input, textarea, select { font: inherit; }
   background: rgba(255, 255, 255, 0.24);
   border-color: var(--white);
 }
-
+ 
 /* Organic cream wave at the foot of the hero */
 .hero-wave {
   position: absolute;
@@ -671,7 +669,7 @@ button, input, textarea, select { font: inherit; }
 }
 .hero-wave svg { display: block; width: 100%; height: 100%; }
 .hero-wave path { fill: var(--cream); }
-
+ 
 @media (min-width: 901px) {
   .site-hero { height: 118vh; min-height: 920px; }
   .hero-inner { align-items: stretch; padding: 0; }
@@ -702,7 +700,7 @@ button, input, textarea, select { font: inherit; }
   .hero-wave { height: 76px; }
   .hero-actions { margin-top: clamp(220px, 44vw, 320px); justify-content: center; }
 }
-
+ 
 /* ============================================================
    POST-HERO IMPACT CARD
    ============================================================ */
@@ -738,7 +736,7 @@ button, input, textarea, select { font: inherit; }
   align-items: center;
   overflow: visible;
 }
-
+ 
 .impact-card-item {
   position: relative;
   min-height: 100px;
@@ -808,7 +806,7 @@ button, input, textarea, select { font: inherit; }
   font-weight: 400;
   color: var(--forest);
 }
-
+ 
 .impact-card-cta {
   position: absolute;
   left: 50%; bottom: 0;
@@ -844,7 +842,7 @@ button, input, textarea, select { font: inherit; }
   transform: translate(-50%, calc(50% + 5px));
   box-shadow: 0 0 0 #2f6d4d;
 }
-
+ 
 @media (max-width: 900px) {
   .impact-card-section { margin-top: -72px; padding-bottom: clamp(76px, 10vw, 104px); }
   .impact-card-inner { width: calc(100% - 44px); max-width: calc(100% - 44px); }
@@ -858,7 +856,7 @@ button, input, textarea, select { font: inherit; }
   .impact-card-item { min-height: 0; padding: 0; }
   .impact-card-item:not(:last-of-type)::after { display: none; }
 }
-
+ 
 /* ============================================================
    BIODIVERSITY + HONEYCOMB
    ============================================================ */
@@ -879,7 +877,7 @@ button, input, textarea, select { font: inherit; }
   margin: 0 auto;
   padding: var(--section-y-tight) 32px var(--section-y);
 }
-
+ 
 .content-left {
   position: relative;
   max-width: 500px;
@@ -900,7 +898,7 @@ button, input, textarea, select { font: inherit; }
   line-height: 1.55;
 }
 .content-left p:last-of-type { margin-bottom: 28px; }
-
+ 
 /* Hover the B in "B Corridor" — the bee takes its place */
 .bee-b { position: relative; transition: color .2s ease; }
 .bee-b::after {
@@ -919,7 +917,7 @@ button, input, textarea, select { font: inherit; }
 }
 .bee-b:hover, .bee-b:focus-visible { color: transparent; }
 .bee-b:hover::after, .bee-b:focus-visible::after { opacity: 1; transform: scale(1) rotate(0); }
-
+ 
 .biodiversity-bee {
   position: absolute;
   left: clamp(-88px, -5vw, -38px);
@@ -949,7 +947,7 @@ button, input, textarea, select { font: inherit; }
   isolation: isolate;
   container-type: inline-size;
 }
-
+ 
 .comb {
   position: absolute;
   z-index: 2;
@@ -977,7 +975,7 @@ button, input, textarea, select { font: inherit; }
 .honeycomb.in-view .comb--vision    { transition-delay: .32s; }
 .honeycomb.in-view .comb--bumblebee { transition-delay: .40s; }
 .honeycomb.in-view .comb--connect   { transition-delay: .48s; }
-
+ 
 .comb-card {
   --border: var(--comb-green);
   background: var(--border);
@@ -986,7 +984,7 @@ button, input, textarea, select { font: inherit; }
 .comb--green { --border: var(--comb-green); }
 .comb--gold { --border: var(--comb-gold); }
 .comb--water { --border: #3eb4f2; }   /* Rivers & Wetlands hexagon */
-
+ 
 .comb-inner {
   width: 100%; height: 100%;
   clip-path: url(#hex-rounded);
@@ -1035,7 +1033,7 @@ button, input, textarea, select { font: inherit; }
 }
 .comb--photo { overflow: hidden; background: #d9d9d9; }
 .comb--photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
-
+ 
 /* Cell placement (percentages of the honeycomb box) */
 .comb--mission   { left: 12.5%; top: 0;      width: 25%; height: 57.14%; }
 .comb--butterfly { left: 37.5%; top: 0;      width: 25%; height: 57.14%; }
@@ -1044,7 +1042,7 @@ button, input, textarea, select { font: inherit; }
 .comb--vision    { left: 25%;   top: 42.86%; width: 25%; height: 57.14%; }
 .comb--bumblebee { left: 50%;   top: 42.86%; width: 25%; height: 57.14%; }
 .comb--connect   { left: 75%;   top: 42.86%; width: 25%; height: 57.14%; }
-
+ 
 /* ============================================================
    6-hexagon honeycomb — icon + title over photo; hover fades the
    photo and reveals the explanation. No zoom on hover.
@@ -1068,7 +1066,7 @@ button, input, textarea, select { font: inherit; }
 }
 .honeycomb.in-view .comb6 { opacity: 1; transform: none; }
 .comb6:hover { filter: drop-shadow(0 9px 20px rgba(0, 0, 0, 0.16)); }
-
+ 
 /* honeycomb placement: 3 over 3, top row nudged half a cell right so the
    bottom row staggers out to the left (matches the reference) */
 .comb6:nth-child(1) { left: 14.57%;  top: 0; }
@@ -1083,7 +1081,7 @@ button, input, textarea, select { font: inherit; }
 .honeycomb.in-view .comb6:nth-child(4) { transition-delay: .24s; }
 .honeycomb.in-view .comb6:nth-child(5) { transition-delay: .32s; }
 .honeycomb.in-view .comb6:nth-child(6) { transition-delay: .40s; }
-
+ 
 /* per-hexagon colours (matched to the reference) */
 .comb6--pollinators { --c: #4f9a5e; }
 .comb6--habitats    { --c: #8a7a3e; }
@@ -1091,7 +1089,7 @@ button, input, textarea, select { font: inherit; }
 .comb6--communities { --c: #e0a52b; }
 .comb6--birds       { --c: #4a9d72; }
 .comb6--meadows     { --c: #8b6fb0; }
-
+ 
 .comb6-inner {
   width: 100%; height: 100%;
   clip-path: url(#hex-rounded);
@@ -1099,7 +1097,7 @@ button, input, textarea, select { font: inherit; }
   display: flex;
   flex-direction: column;
 }
-
+ 
 /* top half — icon + title */
 .comb6-head {
   flex: 0 0 47%;
@@ -1129,7 +1127,7 @@ button, input, textarea, select { font: inherit; }
   letter-spacing: .01em;
   color: var(--c) !important;           /* beats the global heading colour */
 }
-
+ 
 /* bottom half — photo with the explanation hidden behind it */
 .comb6-media {
   position: relative;
@@ -1162,13 +1160,13 @@ button, input, textarea, select { font: inherit; }
 }
 .comb6:hover .comb6-photo,
 .comb6:focus-within .comb6-photo { opacity: 0; }
-
+ 
 /* touch devices can't hover — reveal text on tap via :target-like focus,
    and otherwise keep the photo (icon + title still convey the topic) */
 @media (hover: none) {
   .comb6-text { padding-bottom: 16%; }
 }
-
+ 
 @media (max-width: 1100px) {
   .biodiversity-inner { grid-template-columns: 1fr; gap: 40px; padding-left: 24px; padding-right: 24px; }
   .content-left { max-width: 640px; }
@@ -1185,7 +1183,7 @@ button, input, textarea, select { font: inherit; }
   .comb-art--tree { width: 57%; }                 /* native habitats */
   .comb--connect .comb-art { width: 57%; }        /* connecting communities */
 }
-
+ 
 /* ============================================================
    QUOTE
    ============================================================ */
@@ -1231,12 +1229,12 @@ button, input, textarea, select { font: inherit; }
   border-radius: 14px;
   box-shadow: 5px 5px 0 #2f6d4d;
 }
-
+ 
 .quote-text,
 .quote-author { transition: opacity .45s ease, transform .45s ease; }
 .quote-content.is-fading .quote-text,
 .quote-content.is-fading .quote-author { opacity: 0; transform: translateY(-8px); }
-
+ 
 .quote-text {
   max-width: 720px;
   min-height: 2.8em;
@@ -1278,7 +1276,7 @@ button, input, textarea, select { font: inherit; }
   text-transform: uppercase;
   color: var(--white);
 }
-
+ 
 @media (max-width: 1100px) {
   .quote-section { --pad-y: 54px; --next-overlap: 48px; padding-left: 24px; padding-right: 24px; }
   .quote-text { min-height: 4.4em; }
@@ -1288,7 +1286,7 @@ button, input, textarea, select { font: inherit; }
   .quote-content { padding: 22px 20px; border-radius: 18px; }
   .quote-text { min-height: 5.8em; }
 }
-
+ 
 /* ============================================================
    MISSION
    ============================================================ */
@@ -1325,7 +1323,7 @@ button, input, textarea, select { font: inherit; }
   align-items: center;
   gap: clamp(36px, 5vw, 64px);
 }
-
+ 
 /* Polaroid photo cluster */
 .mission-illustration {
   position: relative;
@@ -1401,12 +1399,12 @@ button, input, textarea, select { font: inherit; }
   color: var(--forest);
   text-align: center;
 }
-
+ 
 /* Layout slots — JS rotates these classes between the polaroids */
 .polaroid.is-slot-1 { width: 68%; left: 24%; top: -1%; z-index: 4; }
 .polaroid.is-slot-2 { width: 41%; left: -2%; top: 10%; z-index: 2; }
 .polaroid.is-slot-3 { width: 43%; left: 7%;  top: 54%; z-index: 5; }
-
+ 
 /* Chunky circular arrow nav for cycling featured image */
 .polaroid-nav-group {
   position: absolute;
@@ -1452,7 +1450,7 @@ button, input, textarea, select { font: inherit; }
 .polaroid-nav--next:focus-visible .cta-arrow { transform: translateX(3px); }
 .polaroid-nav--prev:hover .cta-arrow,
 .polaroid-nav--prev:focus-visible .cta-arrow { transform: scaleX(-1) translateX(3px); }
-
+ 
 .mission-content { padding: 20px 0; }
 .mission-content h2 {
   max-width: 520px;
@@ -1470,7 +1468,7 @@ button, input, textarea, select { font: inherit; }
   line-height: 1.6;
 }
 .mission-content > p:last-of-type { margin-bottom: 0; }
-
+ 
 @media (max-width: 1100px) {
   .mission-section { margin-top: -48px; padding-left: 30px; padding-right: 30px; }
   .mission-inner { grid-template-columns: 1fr; gap: 50px; text-align: center; }
@@ -1494,7 +1492,7 @@ button, input, textarea, select { font: inherit; }
   .polaroid-nav { width: 46px; height: 46px; }
   .polaroid-nav-group { gap: 10px; }
 }
-
+ 
 /* ============================================================
    DID YOU KNOW (live fact card)
    ============================================================ */
@@ -1585,7 +1583,7 @@ button, input, textarea, select { font: inherit; }
 }
 .fact-item:first-child { padding-top: 0; }
 .fact-item:last-child { padding-bottom: 0; border-bottom: 0; }
-
+ 
 .fact-item--with-icon {
   grid-template-columns: 74px minmax(0, 1fr);
 }
@@ -1678,8 +1676,8 @@ button, input, textarea, select { font: inherit; }
   line-height: 1.35;
   color: var(--text-muted-2);
 }
-
-
+ 
+ 
 .fact-refresh {
   position: absolute;
   top: 14px; right: 16px;
@@ -1712,7 +1710,7 @@ button, input, textarea, select { font: inherit; }
   from { transform: rotate(0); }
   to   { transform: rotate(360deg); }
 }
-
+ 
 @media (max-width: 860px) {
   .fact-card {
     width: calc(100% - 28px);
@@ -1729,7 +1727,7 @@ button, input, textarea, select { font: inherit; }
   }
   .fact-list { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 18px; }
 }
-
+ 
 @media (max-width: 660px) {
   /* stack everything in one centered column */
   .fact-card {
@@ -1749,7 +1747,7 @@ button, input, textarea, select { font: inherit; }
   .fact-list { grid-template-columns: 1fr; text-align: left; }
   .fact-item { grid-template-columns: 74px minmax(0, 1fr); }
 }
-
+ 
 /* ============================================================
    CONNECTED LANDSCAPE / MAP
    ============================================================ */
@@ -1767,7 +1765,7 @@ button, input, textarea, select { font: inherit; }
   gap: clamp(34px, 4vw, 56px);
   align-items: start;
 }
-
+ 
 /* Intro copy — stacked above the map */
 .landscape-copy {
   max-width: 860px;
@@ -1791,7 +1789,7 @@ button, input, textarea, select { font: inherit; }
   line-height: 1.7;
   color: var(--text-muted);
 }
-
+ 
 /* Numbered approach list on hairlines */
 .approach-list {
   counter-reset: step;
@@ -1854,7 +1852,7 @@ button, input, textarea, select { font: inherit; }
   justify-content: center;
   gap: 12px;
 }
-
+ 
 /* Map — full-width framed object below the intro */
 .map-panel {
   position: relative;
@@ -1893,7 +1891,7 @@ button, input, textarea, select { font: inherit; }
   line-height: 1.15;
   color: var(--forest);
 }
-
+ 
 .map-legend {
   display: inline-flex;
   flex-wrap: wrap;
@@ -1919,14 +1917,14 @@ button, input, textarea, select { font: inherit; }
 .map-legend-chip--route::before { border-top: 3px dotted var(--brown); }
 .map-legend-chip--area::before { border-top: 2px dashed var(--brown); }
 .map-legend-chip--stop::before { width: 11px; height: 11px; border-radius: 999px; background: var(--green); }
-
-
+ 
+ 
 .map-header-copy strong {
   display: inline-flex;
   align-items: center;
   gap: 12px;
 }
-
+ 
 .map-header-arrow {
   width: clamp(52px, 6vw, 82px);
   height: auto;
@@ -1934,18 +1932,18 @@ button, input, textarea, select { font: inherit; }
   flex: 0 0 auto;
   transform: translateY(3px) rotate(-8deg);
 }
-
+ 
 @media (max-width: 640px) {
   .map-header-copy strong {
     align-items: flex-start;
   }
-
+ 
   .map-header-arrow {
     width: 54px;
     transform: translateY(1px) rotate(-8deg);
   }
 }
-
+ 
 .map-canvas {
   position: relative;
   background: #e8f0e3;
@@ -1972,7 +1970,7 @@ button, input, textarea, select { font: inherit; }
 .bcorridor-map .leaflet-pane,
 .bcorridor-map .leaflet-top,
 .bcorridor-map .leaflet-bottom { z-index: 1; }
-
+ 
 /* Stop strip - bottom icon cards */
 .stop-strip {
   display: grid;
@@ -2066,7 +2064,7 @@ button, input, textarea, select { font: inherit; }
 .stop-button.is-active .stop-icon { color: var(--green); }
 .stop-button.is-active strong,
 .stop-button.is-active small { color: var(--forest); }
-
+ 
 /* Stop detail panel - appears below the map + bottom icons */
 .stop-detail {
   display: grid;
@@ -2142,7 +2140,7 @@ button, input, textarea, select { font: inherit; }
   font-size: 0.7rem;
   font-weight: 700;
 }
-
+ 
 /* Leaflet markers + popups */
 .bcorridor-marker { background: transparent; border: none; }
 .bcorridor-marker-pin {
@@ -2175,7 +2173,7 @@ button, input, textarea, select { font: inherit; }
   transform: translateY(-2px) scale(1.12);
   box-shadow: 0 0 0 4px rgba(70, 133, 92, 0.32), 0 9px 20px rgba(22, 49, 31, 0.48);
 }
-
+ 
 .leaflet-popup-content-wrapper {
   border-radius: 12px;
   border: 1.5px solid #46855c;
@@ -2194,13 +2192,13 @@ button, input, textarea, select { font: inherit; }
   color: var(--forest);
 }
 .bcorridor-popup p { margin: 0; font-family: var(--font-body); font-size: 0.85rem; line-height: 1.45; color: var(--text-muted-2); }
-
+ 
 @media (prefers-reduced-motion: reduce) {
   .bcorridor-marker-pin,
   .stop-button,
   .stop-button::before { transition: none; }
 }
-
+ 
 @media (max-width: 1080px) {
   .landscape-inner { gap: 38px; }
   .landscape-copy h2 { max-width: none; }
@@ -2215,7 +2213,7 @@ button, input, textarea, select { font: inherit; }
   .stop-detail__figure { order: -1; min-height: 210px; }
   .stop-detail__figure img { min-height: 210px; }
 }
-
+ 
 /* ============================================================
    EVENTS & NEWS
    ============================================================ */
@@ -2237,7 +2235,7 @@ button, input, textarea, select { font: inherit; }
   border-radius: 14px;
   box-shadow: 5px 5px 0 #2f6d4d;
 }
-
+ 
 .news-copy {
   max-width: min(980px, 100%);
   margin: 0 auto;
@@ -2273,7 +2271,7 @@ button, input, textarea, select { font: inherit; }
 .news-flower--end { animation: news-flower-spin-end 12s linear infinite; }
 @keyframes news-flower-spin-start { from { transform: rotate(-18deg); } to { transform: rotate(342deg); } }
 @keyframes news-flower-spin-end { from { transform: scaleX(-1) rotate(18deg); } to { transform: scaleX(-1) rotate(378deg); } }
-
+ 
 .news-copy p {
   max-width: 720px;
   margin: 0 auto;
@@ -2282,7 +2280,7 @@ button, input, textarea, select { font: inherit; }
   line-height: 1.55;
   color: rgba(255, 255, 255, 0.9);
 }
-
+ 
 .news-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -2336,9 +2334,9 @@ button, input, textarea, select { font: inherit; }
   color: var(--forest);
 }
 .news-card p { margin: 0; font-family: var(--font-body); font-size: 0.92rem; line-height: 1.48; color: #5b5b55; }
-
+ 
 .news-inner .btn--news { justify-self: center; }
-
+ 
 @media (max-width: 780px) {
   .news-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .news-grid .news-card:nth-child(3) { grid-column: 1 / -1; max-width: 480px; margin: 0 auto; width: 100%; }
@@ -2367,7 +2365,7 @@ button, input, textarea, select { font: inherit; }
   .news-flower { width: clamp(38px, 11vw, 54px); }
   .news-inner { padding: 28px 16px 26px; }
 }
-
+ 
 /* ============================================================
    PARTNERS — split-frame title + marquee
    ============================================================ */
@@ -2406,7 +2404,7 @@ button, input, textarea, select { font: inherit; }
 }
 .partners-inner::before { left: 14px; }
 .partners-inner::after { right: 14px; }
-
+ 
 .partners-copy {
   position: relative;
   z-index: 2;
@@ -2429,7 +2427,7 @@ button, input, textarea, select { font: inherit; }
   text-transform: uppercase;
 }
 .partners-copy p { margin: 0; color: var(--text-body); font-size: clamp(0.82rem, 1vw, 0.94rem); line-height: 1.35; }
-
+ 
 .partners-marquee {
   position: relative;
   overflow: hidden;
@@ -2450,7 +2448,7 @@ button, input, textarea, select { font: inherit; }
   from { transform: translateX(0); }
   to   { transform: translateX(calc(-50% - clamp(9px, 1.2vw, 17px))); }
 }
-
+ 
 .partner-card {
   flex: 0 0 180px;
   min-height: 118px;
@@ -2475,7 +2473,7 @@ button, input, textarea, select { font: inherit; }
   color: var(--forest);
   text-align: center;
 }
-
+ 
 @media (max-width: 900px) {
   .partners-inner { width: calc(100% - 28px); padding: 18px 16px 24px; --title-gap: clamp(112px, 35vw, 170px); }
   .partners-copy { margin-top: -18px; padding: 0 12px; }
@@ -2483,7 +2481,7 @@ button, input, textarea, select { font: inherit; }
   .partners-marquee { mask-image: linear-gradient(90deg, transparent 0%, #000 6%, #000 94%, transparent 100%); -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 6%, #000 94%, transparent 100%); }
   .partners-track { animation-duration: 26s; }
 }
-
+ 
 /* ============================================================
    CTA — Be part of the change
    ============================================================ */
@@ -2541,7 +2539,7 @@ button, input, textarea, select { font: inherit; }
   justify-content: center;
   gap: 12px;
 }
-
+ 
 /* ============================================================
    SECTION WAVE DIVIDERS (CTA + footer)
    ============================================================ */
@@ -2557,7 +2555,7 @@ button, input, textarea, select { font: inherit; }
 .section-wave svg { display: block; width: 100%; height: 100%; }
 .cta-section .section-wave path { fill: var(--cream); }
 .site-footer .section-wave path { fill: #46855c; }
-
+ 
 /* ============================================================
    FOOTER
    ============================================================ */
@@ -2587,11 +2585,11 @@ button, input, textarea, select { font: inherit; }
   align-items: center;
   max-width: 560px;
 }
-
+ 
 .footer-brand-logo { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 16px; }
 .footer-brand-logo img { height: 100px; width: auto; display: block; }
 .footer-tagline { max-width: 260px; margin-bottom: 22px; font-family: var(--font-body); font-size: 0.9rem; line-height: 1.55; color: var(--text-body); }
-
+ 
 .footer-socials { display: inline-flex; gap: 12px; list-style: none; }
 .footer-socials a {
   display: inline-flex;
@@ -2606,7 +2604,7 @@ button, input, textarea, select { font: inherit; }
 }
 .footer-socials a:hover { background: var(--green-dark); transform: translateY(-2px); }
 .footer-socials svg { width: 16px; height: 16px; fill: currentColor; }
-
+ 
 .footer-col h4 {
   margin-bottom: 16px;
   font-family: var(--font-display);
@@ -2619,7 +2617,7 @@ button, input, textarea, select { font: inherit; }
 .footer-col ul { list-style: none; display: grid; gap: 9px; }
 .footer-col a { font-family: var(--font-body); font-size: 0.92rem; color: var(--text-body); text-decoration: none; transition: color .15s ease; }
 .footer-col a:hover { color: var(--forest); }
-
+ 
 .footer-legal {
   margin-top: 56px;
   background: var(--green);
@@ -2640,7 +2638,7 @@ button, input, textarea, select { font: inherit; }
 .footer-legal a { font-family: var(--font-body); font-size: 0.82rem; color: var(--white); text-decoration: none; transition: opacity .15s ease; }
 .footer-legal a:hover { opacity: 0.8; }
 .footer-credit a { text-decoration: underline; text-underline-offset: 2px; }
-
+ 
 @media (max-width: 1100px) {
   .footer-inner { grid-template-columns: minmax(0, 1.4fr) repeat(4, minmax(0, 1fr)); }
 }
@@ -2654,7 +2652,7 @@ button, input, textarea, select { font: inherit; }
   .footer-legal-inner { padding: 14px 22px; justify-content: center; text-align: center; }
   .footer-legal nav { gap: 18px; }
 }
-
+ 
 /* ============================================================
    MOBILE NAV (dropdown panel) — applies below 900px
    ============================================================ */
@@ -2663,7 +2661,7 @@ button, input, textarea, select { font: inherit; }
   .brand-logo--full { height: 50px; }
   .site-header.is-scrolled .brand-logo--full,
   .site-header.menu-is-open .brand-logo--full { height: 40px; }
-
+ 
   .nav-links {
     position: absolute;
     top: calc(100% + 10px);
@@ -2708,17 +2706,17 @@ button, input, textarea, select { font: inherit; }
   .nav-links a:hover,
   .nav-links a:focus-visible { background: #eef6ee; color: var(--forest); }
   .nav-links a::after { display: none; }
-
+ 
   .nav-donate-link { display: inline-flex; font-weight: 700; }
   .btn--donate { display: none; }
   .mobile-menu { display: inline-block; }
   body.menu-open { overflow: hidden; }
-
+ 
   .announce { font-size: 0.82rem; line-height: 1.25; }
   .announce-content { gap: 8px; }
   .announce-close { display: none; }   /* no dismiss button on mobile */
 }
-
+ 
 /* ============================================================
    DESKTOP GUTTER — wide side margins on large screens
    ============================================================ */
@@ -2741,13 +2739,13 @@ button, input, textarea, select { font: inherit; }
   .biodiversity-inner { gap: clamp(70px, 5vw, 110px); }
   .content-left { max-width: 520px; }
 }
-
+ 
 /* ============================================================
    MOBILE & LAPTOP POLISH
    ============================================================ */
 html, body { overflow-x: hidden; }
 img, svg, video { max-width: 100%; }
-
+ 
 /* Tablet — center section titles & paragraphs that are left-aligned on desktop */
 @media (max-width: 1100px) {
   .content-left,
@@ -2770,7 +2768,7 @@ img, svg, video { max-width: 100%; }
     pointer-events: none;
   }
 }
-
+ 
 /* Mobile — override the tablet bee values */
 @media (max-width: 640px) {
   .biodiversity-bee {
@@ -2783,7 +2781,7 @@ img, svg, video { max-width: 100%; }
     pointer-events: none;
   }
 }
-
+ 
 /* Tablet / small laptop — keep hand-drawn elements tidy */
 @media (max-width: 900px) {
   /* Trim chunky 5px shadows so they don't crowd the viewport */
@@ -2797,11 +2795,11 @@ img, svg, video { max-width: 100%; }
   }
   .fact-card:hover { transform: rotate(-0.2deg) translateY(-2px); }
   .fact-image { box-shadow: 2px 3px 0 0 #46855c; }
-
+ 
   /* Approach icon — keep it inline but smaller when stacked */
   .approach-icon { width: clamp(54px, 12vw, 84px); margin-left: 10px; }
 }
-
+ 
 /* Phones */
 @media (max-width: 600px) {
   /* Drop the doodle tilt and downsize shadows further so nothing clips */
@@ -2812,7 +2810,7 @@ img, svg, video { max-width: 100%; }
   .map-panel,
   .quote-content { box-shadow: 3px 3px 0 #2f6d4d; }
   .fact-image { box-shadow: 1px 2px 0 0 #46855c; }
-
+ 
   /* The Follow / Read row keeps its number column, the icon shifts under the text */
   .approach-list li.has-icon { grid-template-columns: 32px 1fr; }
   .approach-icon {
@@ -2823,16 +2821,16 @@ img, svg, video { max-width: 100%; }
     align-self: center;
     justify-self: center;
   }
-
+ 
   /* Polaroid nav — compact circle buttons */
   .polaroid-nav { width: 42px; height: 42px; }
   .polaroid-nav-group { gap: 8px; bottom: 8px; right: 8px; }
-
+ 
   /* Brushstroke decorations — shorter so they don't dominate */
   .quote-section::before,
   .mission-section::before { height: clamp(28px, 8vw, 48px); }
 }
-
+ 
 /* ============================================================
    REDUCED MOTION
    ============================================================ */
@@ -2847,7 +2845,7 @@ img, svg, video { max-width: 100%; }
   .partners-marquee { overflow-x: auto; mask-image: none; -webkit-mask-image: none; }
   .partners-track { animation: none; }
 }
-
+ 
 /* ============================================================
    "Display Heading" display font for all headings
    ============================================================ */
@@ -2948,27 +2946,27 @@ img, svg, video { max-width: 100%; }
   src: url('assets/fonts/open-sans-700-latin.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
-
+ 
 @font-face {
   font-family: 'Display Heading';
   src: url('display-heading/display-heading.woff2') format('woff2'),
        url('display-heading/display-heading.ttf') format('truetype');
   font-display: swap;
 }
-
+ 
 h1, h2, h3, h4, h5 {
   font-family: 'Display Heading', var(--font-display) !important;
   text-transform: uppercase;
   color: var(--green-dark) !important;   /* dark green from the palette (#386b49) */
 }
-
+ 
 /* Headings sitting on dark/green backgrounds stay white for legibility */
 .site-hero h1,
 .news-title,
 .cta-content h2 { color: var(--white) !important; }
-
-
-
+ 
+ 
+ 
 /* ============================================================
    UX refresh — guided one-column trail map
    ============================================================ */
@@ -3256,7 +3254,7 @@ h1, h2, h3, h4, h5 {
   .stop-detail__figure,
   .stop-detail__figure img { min-height: 240px; }
 }
-
+ 
 /* ============================================================
    Refinement — keep the guided map, remove the added decorative
    backgrounds, and return the section to the site's existing style.
@@ -3264,17 +3262,17 @@ h1, h2, h3, h4, h5 {
 .landscape-section {
   background: var(--cream);
 }
-
+ 
 .landscape-inner {
   max-width: min(1180px, calc(100% - 64px));
 }
-
+ 
 .approach-list {
   display: block;
   max-width: 760px;
   gap: 0;
 }
-
+ 
 .approach-list li,
 .approach-list li:last-child {
   padding: 16px 0;
@@ -3284,11 +3282,11 @@ h1, h2, h3, h4, h5 {
   background: transparent;
   box-shadow: none;
 }
-
+ 
 .approach-list li:last-child {
   border-bottom: 3px solid var(--brown);
 }
-
+ 
 .trail-how {
   max-width: 760px;
   margin-top: 10px;
@@ -3298,12 +3296,12 @@ h1, h2, h3, h4, h5 {
   background: transparent;
   box-shadow: none;
 }
-
+ 
 .trail-how__item strong {
   background: var(--green);
   color: var(--white);
 }
-
+ 
 .map-panel {
   padding: 0;
   border: 1.5px solid #46855c;
@@ -3312,29 +3310,29 @@ h1, h2, h3, h4, h5 {
   box-shadow: 5px 5px 0 #2f6d4d;
   overflow: hidden;
 }
-
+ 
 .map-header {
   border: 0;
   border-bottom: 3px solid var(--brown);
   border-radius: 0;
   background: var(--cream);
 }
-
+ 
 .map-canvas {
   border: 0;
 }
-
+ 
 .stop-strip-header {
   border: 0;
   background: var(--cream);
 }
-
+ 
 .stop-strip {
   border-inline: 0;
   border-top: 3px solid var(--brown);
   background: var(--cream);
 }
-
+ 
 .stop-detail {
   margin: 14px;
   padding: clamp(16px, 2vw, 24px);
@@ -3343,26 +3341,26 @@ h1, h2, h3, h4, h5 {
   background: var(--white);
   box-shadow: 4px 5px 0 rgba(47, 109, 77, 0.16);
 }
-
+ 
 .stop-why {
   border: 1.5px solid rgba(137, 108, 75, 0.22);
   background: var(--cream);
 }
-
+ 
 .trail-download-card {
   border: 1.5px solid rgba(70, 133, 92, 0.35);
   border-radius: 14px;
   background: var(--cream);
   box-shadow: 4px 5px 0 rgba(47, 109, 77, 0.14);
 }
-
+ 
 @media (max-width: 560px) {
   .map-panel {
     padding: 0;
     box-shadow: 5px 5px 0 #2f6d4d;
   }
 }
-
+ 
 /* ============================================================
    Trail map refinement — simplified steps and native button style
    ============================================================ */
@@ -3375,13 +3373,13 @@ h1, h2, h3, h4, h5 {
   gap: 14px;
   flex-wrap: wrap;
 }
-
+ 
 .trail-how__item {
   min-height: 72px;
   padding: 10px 12px;
   gap: 10px;
 }
-
+ 
 .trail-how__icon {
   width: 44px;
   height: 44px;
@@ -3392,31 +3390,31 @@ h1, h2, h3, h4, h5 {
   justify-content: center;
   color: var(--green);
 }
-
+ 
 .trail-how__icon--map svg {
   width: 42px;
   height: 42px;
   display: block;
 }
-
+ 
 .trail-how__arrow {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   color: var(--brown);
 }
-
+ 
 .trail-how__arrow .cta-arrow {
   width: 28px;
   height: auto;
 }
-
+ 
 .stop-wildlife { display: none !important; }
-
+ 
 .stop-nav {
   align-items: center;
 }
-
+ 
 .stop-nav .stop-nav__button.btn {
   display: inline-flex;
   align-items: center;
@@ -3436,7 +3434,7 @@ h1, h2, h3, h4, h5 {
   box-shadow: 0 5px 0 #2f6d4d;
   transition: background-color .2s ease, color .2s ease, transform .12s ease, box-shadow .12s ease;
 }
-
+ 
 .stop-nav .stop-nav__button.btn:hover,
 .stop-nav .stop-nav__button.btn:focus-visible {
   transform: translateY(2px);
@@ -3444,44 +3442,44 @@ h1, h2, h3, h4, h5 {
   color: var(--white);
   box-shadow: 0 3px 0 #2f6d4d;
 }
-
+ 
 .stop-nav .stop-nav__button.btn:active {
   transform: translateY(5px);
   box-shadow: 0 0 0 #2f6d4d;
 }
-
+ 
 .stop-nav .btn-icon--prev {
   order: -1;
   margin-left: 0;
   margin-right: 0.7em;
 }
-
+ 
 .stop-nav .btn-icon--prev .cta-arrow {
   transform: scaleX(-1);
 }
-
+ 
 .stop-nav .stop-nav__button--prev:hover .btn-icon--prev .cta-arrow,
 .stop-nav .stop-nav__button--prev:focus-visible .btn-icon--prev .cta-arrow {
   transform: scaleX(-1) translateX(3px);
 }
-
+ 
 @media (max-width: 700px) {
   .trail-how {
     align-items: stretch;
     justify-content: flex-start;
   }
-
+ 
   .trail-how__arrow {
     display: none;
   }
-
+ 
   .trail-how__item {
     width: 100%;
     justify-content: flex-start;
   }
 }
-
-
+ 
+ 
 /* Refinement: stop-number chips match the Route / Area / Stops legend style */
 .stop-button {
   grid-template-rows: auto 1fr auto auto;
@@ -3509,7 +3507,7 @@ h1, h2, h3, h4, h5 {
   color: var(--white);
   box-shadow: 2px 3px 0 #2f6d4d;
 }
-
+ 
 /* Refinement: Why it matters stays in the text flow, not inside a boxed callout */
 .stop-why {
   margin-top: 2px;
@@ -3528,7 +3526,7 @@ h1, h2, h3, h4, h5 {
   line-height: 1.65;
   color: var(--text-muted);
 }
-
+ 
 /* Refinement: remove guide lines under the stop chips and keep the selected stop card compact */
 .stop-strip::before,
 .stop-button::before,
@@ -3538,51 +3536,51 @@ h1, h2, h3, h4, h5 {
   display: none !important;
   content: none !important;
 }
-
+ 
 .stop-strip {
   padding-bottom: 16px;
 }
-
+ 
 .stop-detail {
   width: min(900px, calc(100% - 28px));
   margin: 14px auto;
   grid-template-columns: minmax(220px, 0.82fr) minmax(300px, 1.18fr);
   align-items: stretch;
 }
-
+ 
 .stop-detail__figure {
   min-height: 0;
   height: auto;
   max-height: 320px;
 }
-
+ 
 .stop-detail__figure img {
   min-height: 0;
   height: 100%;
   max-height: 320px;
   object-fit: cover;
 }
-
+ 
 .stop-detail__copy {
   min-height: 260px;
 }
-
+ 
 @media (max-width: 820px) {
   .stop-detail {
     width: calc(100% - 28px);
     grid-template-columns: 1fr;
   }
-
+ 
   .stop-detail__figure,
   .stop-detail__figure img {
     max-height: 260px;
   }
-
+ 
   .stop-detail__copy {
     min-height: 0;
   }
 }
-
+ 
 /* Refinement: selected stop card matches the Quick Fact card palette */
 .stop-detail {
   border: 1.5px solid #46855c;
@@ -3591,14 +3589,14 @@ h1, h2, h3, h4, h5 {
   box-shadow: 4px 5px 0 0 #46855c;
   color: var(--forest);
 }
-
+ 
 .stop-detail__figure {
   border: 1.5px solid #46855c;
   border-radius: 18px 26px 16px 22px / 22px 16px 24px 18px;
   background: var(--sage-light);
   box-shadow: 2px 3px 0 0 #46855c;
 }
-
+ 
 .stop-detail__eyebrow {
   padding: 5px 12px;
   border-radius: 9px;
@@ -3611,29 +3609,29 @@ h1, h2, h3, h4, h5 {
   font-weight: 600;
   letter-spacing: 0.08em;
 }
-
+ 
 /* Refinement: smaller hint arrow + Gaegu stop pill in the selected stop card */
 .map-header-arrow {
   width: clamp(34px, 4vw, 52px);
 }
-
+ 
 .stop-detail__eyebrow {
   font-family: var(--font-hand);
   font-weight: 700;
   letter-spacing: 0.1em;
 }
-
+ 
 @media (max-width: 640px) {
   .map-header-arrow {
     width: 38px;
   }
 }
-
+ 
 /* ============================================================
    Connected Landscape — match the header width (logo → donate)
    and show the stop story as a closable side panel on the map.
    ============================================================ */
-
+ 
 /* Same content box as the navbar: max-width 1280 with 32px gutters,
    so the map card lines up with the logo on the left and the
    donate button on the right. */
@@ -3641,7 +3639,7 @@ h1, h2, h3, h4, h5 {
   max-width: min(1560px, calc(100% - 48px));
   padding-inline: 0;
 }
-
+ 
 /* Let the intro text span the full width of the section too, so the
    heading and lede line up with the map card edges (not a narrow column). */
 .landscape-copy {
@@ -3650,7 +3648,7 @@ h1, h2, h3, h4, h5 {
 }
 .landscape-copy h2 { max-width: none; }
 .landscape-lede { max-width: none; }
-
+ 
 /* Map card splits into two columns while a stop is open:
    map + stop chips on the left, the stop story on the right. */
 .map-panel.is-detail-open {
@@ -3663,12 +3661,12 @@ h1, h2, h3, h4, h5 {
   display: flex;
   flex-direction: column;
 }
-
+ 
 /* Keep the six stop chips fitting under the (now narrower) map column. */
 .map-panel.is-detail-open .stop-strip {
   grid-template-columns: repeat(6, minmax(110px, 1fr));
 }
-
+ 
 /* The stop story as a panel sitting against the map, not below it. */
 .map-panel.is-detail-open .stop-detail {
   display: flex;
@@ -3706,7 +3704,7 @@ h1, h2, h3, h4, h5 {
 .map-panel.is-detail-open .stop-detail__eyebrow {
   margin-right: 44px;   /* clear of the close button */
 }
-
+ 
 /* Close (×) button — top-right of the panel. */
 .stop-detail__close {
   position: absolute;
@@ -3733,13 +3731,13 @@ h1, h2, h3, h4, h5 {
   background: var(--sage-light);
   transform: scale(1.06);
 }
-
+ 
 /* When closed, hide the panel so the map fills the whole card. */
 .map-panel:not(.is-detail-open) .stop-detail { display: none; }
-
+ 
 /* Drag handle — only shown on the mobile bottom sheet. */
 .stop-detail__handle { display: none; }
-
+ 
 /* ---- Mobile: the stop story becomes a draggable bottom sheet ---- */
 @media (max-width: 820px) {
   .landscape-inner { max-width: calc(100% - 32px); padding-inline: 0; }
@@ -3747,7 +3745,7 @@ h1, h2, h3, h4, h5 {
   .map-panel.is-detail-open .stop-strip {
     grid-template-columns: repeat(6, minmax(132px, 1fr));
   }
-
+ 
   /* Sheet pinned to the bottom of the viewport, overlapping the map. */
   .map-panel.is-detail-open .stop-detail {
     position: fixed;
@@ -3770,7 +3768,7 @@ h1, h2, h3, h4, h5 {
     will-change: transform;
     animation: stop-sheet-up .32s cubic-bezier(.22, 1, .36, 1);
   }
-
+ 
   /* Grab strip across the top, with the visible pill handle. */
   .stop-detail__handle {
     display: block;
@@ -3798,27 +3796,27 @@ h1, h2, h3, h4, h5 {
     background: rgba(70, 133, 92, 0.45);
   }
   .stop-detail__handle:active { cursor: grabbing; }
-
+ 
   /* Keep the close button above the handle strip. */
   .map-panel.is-detail-open .stop-detail__close {
     top: 16px;
     z-index: 5;
   }
   .map-panel.is-detail-open .stop-detail__eyebrow { margin-top: 4px; }
-
+ 
   /* Make the prev/next buttons full-width inside the sheet. */
   .map-panel.is-detail-open .stop-nav { flex-direction: column-reverse; }
   .map-panel.is-detail-open .stop-nav .stop-nav__button.btn { width: 100%; }
 }
-
+ 
 @keyframes stop-sheet-up {
   from { transform: translateY(100%); }
   to   { transform: translateY(0); }
 }
-
+ 
 /* Stop chip icons are dark brown until their stop is selected. */
 .stop-button:not(.is-active) .stop-icon { color: #593c0e; }
-
+ 
 /* "Take the trail with you" — hiker icon in a bordered sage circle. */
 .trail-download-card__intro {
   display: flex;
@@ -3842,7 +3840,7 @@ h1, h2, h3, h4, h5 {
   object-fit: contain;
   display: block;
 }
-
+ 
 /* Leading map icon inside the "View corridor map" button. */
 .btn-lead-icon {
   display: inline-flex;
@@ -3859,7 +3857,7 @@ h1, h2, h3, h4, h5 {
   object-fit: contain;
   display: block;
 }
-
+ 
 /* Circle the "how to use the map" step icons — sage fill, border, shadow. */
 .trail-how__icon {
   width: 54px;
@@ -3875,8 +3873,8 @@ h1, h2, h3, h4, h5 {
   width: 100%;
   height: 100%;
 }
-
-
+ 
+ 
 /* ============================================================
    Map viewport + width fix
    Keeps the Connected Landscape block inside one viewport and
@@ -3889,7 +3887,7 @@ h1, h2, h3, h4, h5 {
   overflow-x: hidden;
   overflow-x: clip;
 }
-
+ 
 .landscape-inner {
   width: min(1280px, calc(100vw - 64px));
   max-width: none;
@@ -3899,46 +3897,46 @@ h1, h2, h3, h4, h5 {
   gap: clamp(16px, 2.4svh, 28px);
   padding-inline: 0;
 }
-
+ 
 .landscape-copy {
   max-width: 900px;
   margin-inline: auto;
 }
-
+ 
 .landscape-copy h2 {
   max-width: 16ch;
   margin-bottom: 8px;
   font-size: clamp(2rem, 3.2vw, 3rem);
 }
-
+ 
 .landscape-lede {
   max-width: 62ch;
   line-height: 1.55;
 }
-
+ 
 .trail-how {
   max-width: 860px;
   margin-top: clamp(6px, 1svh, 10px);
   padding-block: clamp(8px, 1.2svh, 12px);
   gap: 10px;
 }
-
+ 
 .trail-how__item {
   min-height: auto;
   padding: 6px 10px;
 }
-
+ 
 .trail-how__icon {
   width: 34px;
   height: 34px;
   flex-basis: 34px;
 }
-
+ 
 .trail-how__icon--map svg {
   width: 32px;
   height: 32px;
 }
-
+ 
 .map-panel {
   width: 100%;
   max-width: 100%;
@@ -3948,7 +3946,7 @@ h1, h2, h3, h4, h5 {
   flex-direction: column;
   overflow: hidden;
 }
-
+ 
 .map-main {
   min-width: 0;
   min-height: 0;
@@ -3956,157 +3954,157 @@ h1, h2, h3, h4, h5 {
   display: flex;
   flex-direction: column;
 }
-
+ 
 .map-header,
 .stop-strip-header,
 .stop-strip {
   flex: 0 0 auto;
 }
-
+ 
 .map-header {
   padding: clamp(9px, 1.4svh, 13px) clamp(14px, 1.8vw, 20px);
 }
-
+ 
 .map-canvas {
   flex: 1 1 auto;
   min-height: 0;
 }
-
+ 
 .bcorridor-map {
   width: 100%;
   height: 100%;
   min-height: 0;
 }
-
+ 
 .stop-strip-header {
   padding: 8px 12px 0;
 }
-
+ 
 .stop-strip {
   grid-template-columns: repeat(6, minmax(100px, 1fr));
   gap: 8px;
   padding: 8px 12px 10px;
 }
-
+ 
 .stop-button {
   min-height: 86px;
   padding: 8px 6px;
   gap: 4px;
 }
-
+ 
 .stop-number {
   width: 26px;
   height: 26px;
   font-size: 0.78rem;
 }
-
+ 
 .stop-icon {
   width: 30px;
   height: 30px;
 }
-
+ 
 .stop-button strong {
   font-size: 0.98rem;
 }
-
+ 
 .stop-button small {
   font-size: 0.75rem;
 }
-
+ 
 .map-panel.is-detail-open {
   display: grid;
   grid-template-columns: minmax(0, 1fr) clamp(280px, 28%, 360px);
 }
-
+ 
 .map-panel.is-detail-open .map-main,
 .map-panel.is-detail-open .stop-detail {
   height: 100%;
   min-height: 0;
 }
-
+ 
 .map-panel.is-detail-open .stop-strip {
   grid-template-columns: repeat(6, minmax(92px, 1fr));
 }
-
+ 
 .map-panel.is-detail-open .stop-button {
   min-height: 78px;
 }
-
+ 
 .map-panel.is-detail-open .stop-detail {
   overflow-y: auto;
 }
-
+ 
 .map-panel.is-detail-open .stop-detail__figure {
   height: clamp(120px, 18svh, 190px);
 }
-
+ 
 @media (max-width: 820px) {
   .landscape-section {
     --map-section-y: 32px;
     min-height: auto;
     overflow-x: hidden;
   }
-
+ 
   .landscape-inner {
     width: calc(100vw - 32px);
     min-height: auto;
     grid-template-rows: auto;
     gap: 24px;
   }
-
+ 
   .landscape-copy h2 {
     max-width: none;
   }
-
+ 
   .map-panel {
     height: min(76svh, 620px);
     min-height: 520px;
   }
-
+ 
   .map-panel.is-detail-open {
     display: flex;
   }
-
+ 
   .map-panel.is-detail-open .stop-detail {
     height: auto;
     max-height: 82svh;
   }
 }
-
+ 
 @media (max-width: 560px) {
   .landscape-section {
     --map-section-y: 28px;
   }
-
+ 
   .landscape-inner {
     width: calc(100vw - 24px);
   }
-
+ 
   .trail-how__icon {
     width: 32px;
     height: 32px;
     flex-basis: 32px;
   }
-
+ 
   .map-panel {
     height: min(78svh, 560px);
     min-height: 460px;
   }
-
+ 
   .map-header {
     gap: 10px;
   }
-
+ 
   .stop-strip {
     grid-template-columns: repeat(6, minmax(112px, 1fr));
   }
-
+ 
   .stop-button {
     min-height: 104px;
   }
 }
-
-
+ 
+ 
 /* ============================================================
    Map viewport tightening
    Slightly reduces the whole Connected Landscape map card so
@@ -4116,119 +4114,119 @@ h1, h2, h3, h4, h5 {
 .landscape-section {
   --map-section-y: clamp(20px, 2.8svh, 34px);
 }
-
+ 
 .landscape-inner {
   width: min(1210px, calc(100vw - 96px));
   gap: clamp(10px, 1.6svh, 18px);
 }
-
+ 
 .landscape-copy .kicker {
   margin-bottom: 10px;
   padding: 7px 15px;
 }
-
+ 
 .landscape-copy h2 {
   margin-bottom: 4px;
   font-size: clamp(1.9rem, 2.8vw, 2.7rem);
   line-height: 0.98;
 }
-
+ 
 .landscape-lede {
   font-size: clamp(0.95rem, 0.95vw, 1.04rem);
   line-height: 1.45;
 }
-
+ 
 .trail-how {
   margin-top: clamp(4px, 0.7svh, 8px);
   padding-block: clamp(6px, 0.9svh, 9px);
   gap: 8px;
 }
-
+ 
 .trail-how__item {
   padding: 4px 8px;
   gap: 8px;
   font-size: 0.95rem;
 }
-
+ 
 .trail-how__icon {
   width: 30px;
   height: 30px;
   flex-basis: 30px;
   padding: 6px;
 }
-
+ 
 .trail-how__icon--map svg {
   width: 28px;
   height: 28px;
 }
-
+ 
 .map-panel {
   height: min(64svh, 620px);
   max-height: calc(100svh - 178px);
 }
-
+ 
 @media (min-height: 900px) {
   .map-panel {
     height: min(66svh, 660px);
     max-height: calc(100svh - 190px);
   }
 }
-
+ 
 .map-header {
   padding: clamp(7px, 1svh, 10px) clamp(12px, 1.5vw, 16px);
   gap: 12px;
 }
-
+ 
 .map-header-copy {
   gap: 1px;
 }
-
+ 
 .map-header-copy span {
   font-size: 0.66rem;
 }
-
+ 
 .map-header-copy strong {
   gap: 8px;
   font-size: clamp(0.98rem, 1.2vw, 1.12rem);
 }
-
+ 
 .map-header-arrow {
   width: clamp(28px, 3vw, 40px);
 }
-
+ 
 .map-legend {
   gap: 8px;
 }
-
+ 
 .map-legend-chip {
   padding: 4px 9px;
   font-size: 0.7rem;
 }
-
+ 
 .stop-strip-header {
   padding: 6px 10px 0;
 }
-
+ 
 .stop-strip-header span {
   font-size: 0.68rem;
 }
-
+ 
 .stop-strip-header strong {
   font-size: 0.85rem;
 }
-
+ 
 .stop-strip {
   grid-template-columns: repeat(6, minmax(86px, 1fr));
   gap: 6px;
   padding: 6px 10px 8px;
 }
-
+ 
 .stop-button {
   min-height: 70px;
   padding: 6px 5px;
   gap: 2px;
 }
-
+ 
 .stop-number {
   min-width: 56px;
   width: auto;
@@ -4236,105 +4234,105 @@ h1, h2, h3, h4, h5 {
   padding: 5px 8px;
   font-size: 0.7rem;
 }
-
+ 
 .stop-icon {
   width: 24px;
   height: 24px;
 }
-
+ 
 .stop-button strong {
   font-size: 0.88rem;
   line-height: 1;
 }
-
+ 
 .stop-button small {
   font-size: 0.68rem;
   line-height: 1.15;
 }
-
+ 
 .map-panel.is-detail-open {
   grid-template-columns: minmax(0, 1fr) clamp(250px, 26%, 320px);
 }
-
+ 
 .map-panel.is-detail-open .stop-strip {
   grid-template-columns: repeat(6, minmax(80px, 1fr));
 }
-
+ 
 .map-panel.is-detail-open .stop-button {
   min-height: 66px;
 }
-
+ 
 .map-panel.is-detail-open .stop-detail {
   padding: clamp(12px, 1.2vw, 18px);
   gap: 10px;
 }
-
+ 
 .map-panel.is-detail-open .stop-detail__figure {
   height: clamp(96px, 14svh, 150px);
 }
-
+ 
 .map-panel.is-detail-open .stop-detail h3 {
   font-size: clamp(1.45rem, 2vw, 1.85rem);
 }
-
+ 
 .map-panel.is-detail-open .stop-detail__subtitle,
 .map-panel.is-detail-open .stop-detail__copy p,
 .map-panel.is-detail-open .stop-why p {
   font-size: 0.9rem;
   line-height: 1.45;
 }
-
+ 
 .map-panel.is-detail-open .stop-nav {
   gap: 8px;
   margin-top: 4px;
 }
-
+ 
 .map-panel.is-detail-open .stop-nav .stop-nav__button.btn {
   min-height: 44px;
   padding: 0 18px;
   font-size: 0.95rem;
 }
-
+ 
 @media (max-width: 820px) {
   .landscape-section {
     --map-section-y: 24px;
   }
-
+ 
   .landscape-inner {
     width: calc(100vw - 44px);
     gap: 18px;
   }
-
+ 
   .map-panel {
     height: min(70svh, 560px);
     min-height: 460px;
     max-height: none;
   }
-
+ 
   .map-panel.is-detail-open .stop-detail {
     max-height: 78vh;
   }
 }
-
+ 
 @media (max-width: 560px) {
   .landscape-inner {
     width: calc(100vw - 30px);
   }
-
+ 
   .map-panel {
     height: min(68svh, 520px);
     min-height: 420px;
   }
-
+ 
   .stop-strip {
     grid-template-columns: repeat(6, minmax(98px, 1fr));
   }
-
+ 
   .stop-button {
     min-height: 86px;
   }
 }
-
+ 
 /* ============================================================
    Stadia / Stamen map styling
    Keeps Stamen Terrain soft enough for the route, area and stop
@@ -4344,21 +4342,21 @@ h1, h2, h3, h4, h5 {
 .map-tiles--soft-terrain {
   filter: saturate(0.74) brightness(1.04) contrast(0.92);
 }
-
+ 
 .map-tiles--soft-watercolor {
   filter: saturate(0.48) brightness(1.08) contrast(0.88);
 }
-
+ 
 .map-tiles--aerial {
   filter: saturate(0.86) brightness(1.02) contrast(0.94);
 }
-
+ 
 .bcorridor-map .leaflet-control-container,
 .bcorridor-map .leaflet-top,
 .bcorridor-map .leaflet-bottom {
   z-index: 20;
 }
-
+ 
 .bcorridor-map .leaflet-control-attribution {
   display: block !important;
   max-width: min(78%, 620px);
@@ -4369,11 +4367,11 @@ h1, h2, h3, h4, h5 {
   font-size: 10px;
   line-height: 1.25;
 }
-
+ 
 .bcorridor-map .leaflet-control-attribution a {
   color: inherit;
 }
-
+ 
 .bcorridor-map .leaflet-control-layers {
   margin-top: 12px;
   margin-right: 12px;
@@ -4385,42 +4383,42 @@ h1, h2, h3, h4, h5 {
   font-family: var(--font-body);
   font-size: 0.82rem;
 }
-
+ 
 .bcorridor-map .leaflet-control-layers-toggle {
   width: 40px;
   height: 40px;
   border-radius: 10px;
   background-size: 20px 20px;
 }
-
+ 
 .bcorridor-map .leaflet-control-layers-expanded {
   padding: 10px 12px;
 }
-
+ 
 .bcorridor-map .leaflet-control-layers-base label {
   display: block;
   margin: 0 0 6px;
   white-space: nowrap;
 }
-
+ 
 .bcorridor-map .leaflet-control-layers-base label:last-child {
   margin-bottom: 0;
 }
-
+ 
 @media (max-width: 560px) {
   .bcorridor-map .leaflet-control-layers {
     margin-top: 8px;
     margin-right: 8px;
     font-size: 0.76rem;
   }
-
+ 
   .bcorridor-map .leaflet-control-attribution {
     max-width: 88%;
     font-size: 9px;
   }
 }
-
-
+ 
+ 
 /* ============================================================
    Mobile map stop-detail fail-safe
    Keeps the stop story closed until the visitor actively opens a stop.
@@ -4432,18 +4430,18 @@ h1, h2, h3, h4, h5 {
   display: none !important;
   visibility: hidden !important;
 }
-
+ 
 @media (max-width: 820px) {
   .map-panel:not(.is-detail-open) .stop-detail {
     position: static !important;
     transform: none !important;
   }
 }
-
+ 
 /* ============================================================
    Final refinements
    ============================================================ */
-
+ 
 /* "A Connected Landscape" — one line, same size as other section headings.
    overflow:hidden keeps the nowrap heading from inflating the section's
    grid track (the cause of the whole section overflowing on phones);
@@ -4456,14 +4454,14 @@ h1, h2, h3, h4, h5 {
   font-size: clamp(2.25rem, 5vw, 3.875rem);
   line-height: 1.05;
 }
-
+ 
 /* Safety net: no child of the section's grid may force the column
    track wider than the viewport. */
 .landscape-inner > * {
   min-width: 0;
   max-width: 100%;
 }
-
+ 
 /* Steps ("Choose a stop → Discover → Take the route"): when they no
    longer fit on one row, stack them centered with the arrows visible
    and pointing downward. */
@@ -4474,26 +4472,26 @@ h1, h2, h3, h4, h5 {
     justify-content: center;
     gap: 6px;
   }
-
+ 
   .trail-how__item {
     width: auto;
     min-height: auto;
     justify-content: center;
     text-align: center;
   }
-
+ 
   .trail-how__arrow {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     transform: rotate(90deg);
   }
-
+ 
   .trail-how__arrow .cta-arrow {
     width: 24px;
   }
 }
-
+ 
 /* Reset-view button on the map (below the zoom control). */
 .map-reset-control .map-reset-button {
   display: grid;
@@ -4504,17 +4502,17 @@ h1, h2, h3, h4, h5 {
   background: var(--white, #fff);
   cursor: pointer;
 }
-
+ 
 .map-reset-control .map-reset-button:hover,
 .map-reset-control .map-reset-button:focus-visible {
   background: var(--sage-light, #eef3df);
   color: var(--green, #46855c);
 }
-
+ 
 .map-reset-control .map-reset-button svg {
   display: block;
 }
-
+ 
 /* Mobile bottom sheet — give the stop photo a proper height so it
    isn't squeezed into a thin strip. */
 @media (max-width: 820px) {
@@ -4522,7 +4520,7 @@ h1, h2, h3, h4, h5 {
     height: clamp(200px, 52vw, 300px);
     min-height: 200px;
   }
-
+ 
   .map-panel.is-detail-open .stop-detail__figure img {
     width: 100%;
     height: 100%;
@@ -4530,7 +4528,7 @@ h1, h2, h3, h4, h5 {
     object-fit: cover;
   }
 }
-
+ 
 /* ============================================================
    Uniform vertical rhythm between sections.
    Every cream-on-cream boundary gets half of --section-y on each
@@ -4543,32 +4541,32 @@ h1, h2, h3, h4, h5 {
 .impact-card-section {
   padding-bottom: calc(var(--section-y) / 2);
 }
-
+ 
 .biodiversity-section {
   padding-block: calc(var(--section-y) / 2) var(--section-y);
 }
-
+ 
 .mission-section {
   padding-bottom: calc(var(--section-y) / 2);
 }
-
+ 
 .fact-section {
   padding-block: calc(var(--section-y) / 2);
 }
-
+ 
 .landscape-section {
   /* drives the section's own padding AND its internal height math */
   --map-section-y: calc(var(--section-y) / 2);
 }
-
+ 
 .news-section {
   padding-block: calc(var(--section-y) / 2);
 }
-
+ 
 .partners-section {
   padding-block: calc(var(--section-y) / 2) var(--section-y);
 }
-
+ 
 /* ============================================================
    No-JS fallback — without scripting the header can't switch to
    its "scrolled" glass state, so apply it permanently to keep
@@ -4581,3 +4579,4 @@ h1, h2, h3, h4, h5 {
 .no-js .nav-links a { color: #386b49; text-shadow: none; }
 .no-js .nav-links a::after { background: var(--green); }
 .no-js .mobile-menu { background: var(--green); }
+ 
