@@ -72,6 +72,11 @@
   // background poster shows through) and retry the load once.
   let retried = false;
   video.addEventListener("error", () => {
+    console.warn(
+      "hero video failed, code:",
+      video.error && video.error.code,
+      "(2=network, 3=decode, 4=unsupported)",
+    );
     video.classList.remove("is-playing");
     if (retried) return;
     retried = true;
