@@ -400,7 +400,7 @@ button, input, textarea, select { font: inherit; }
   font-family: var(--font-hand);   /* Gaegu */
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  font-size: 0.82rem;
+  font-size: 1.3rem;
   font-weight: 700;
 }
 .announce-icon {
@@ -468,14 +468,14 @@ button, input, textarea, select { font: inherit; }
   transition: height .55s cubic-bezier(.22, 1, .36, 1), opacity .55s cubic-bezier(.22, 1, .36, 1), transform .55s cubic-bezier(.22, 1, .36, 1);
   will-change: height, transform;
 }
-.brand-logo--full { height: 90px; opacity: 1; transform: scale(1); }
+.brand-logo--full { height: 120px; opacity: 1; transform: scale(1); }
  
 .site-header.is-scrolled .brand,
 .site-header.menu-is-open .brand { min-width: 74px; }
 .site-header.is-scrolled .navbar,
 .site-header.menu-is-open .navbar { padding-top: 6px; padding-bottom: 6px; }
 .site-header.is-scrolled .brand-logo--full,
-.site-header.menu-is-open .brand-logo--full { height: 56px; }
+.site-header.menu-is-open .brand-logo--full { height: 74px; }
  
 /* Nav links — white over the hero, forest once scrolled */
 .nav-links {
@@ -675,7 +675,7 @@ button, input, textarea, select { font: inherit; }
   .hero-inner { align-items: stretch; padding: 0; }
   .hero-copy {
     position: absolute;
-    top: clamp(230px, 26vh, 340px);
+    top: clamp(265px, 29vh, 380px);
     left: 0;
     width: min(720px, 56vw);
     z-index: 6;
@@ -689,7 +689,7 @@ button, input, textarea, select { font: inherit; }
 }
 @media (min-width: 901px) and (max-height: 800px) {
   .site-hero { height: 124vh; min-height: 900px; }
-  .hero-copy { top: clamp(205px, 25vh, 285px); }
+  .hero-copy { top: clamp(235px, 27vh, 320px); }
 }
 @media (max-width: 900px) {
   .hero-wave { height: 92px; }
@@ -2658,9 +2658,9 @@ button, input, textarea, select { font: inherit; }
    ============================================================ */
 @media (max-width: 900px) {
   .navbar { position: relative; padding: 10px 22px; }
-  .brand-logo--full { height: 50px; }
+  .brand-logo--full { height: 68px; }
   .site-header.is-scrolled .brand-logo--full,
-  .site-header.menu-is-open .brand-logo--full { height: 40px; }
+  .site-header.menu-is-open .brand-logo--full { height: 54px; }
  
   .nav-links {
     position: absolute;
