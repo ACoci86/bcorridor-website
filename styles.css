@@ -617,7 +617,7 @@ button, input, textarea, select { font: inherit; }
  
 .site-hero h1 {
   color: var(--white);
-  font-size: clamp(2.6rem, 9vw, 3.8rem);
+  font-size: clamp(2.35rem, 8.2vw, 3.5rem);
   line-height: 0.98;
   letter-spacing: -0.02em;
   text-shadow: 0 2px 18px rgba(0, 0, 0, 0.45);
@@ -696,7 +696,7 @@ button, input, textarea, select { font: inherit; }
   .hero-actions { margin-top: clamp(150px, 28vw, 220px); justify-content: center; }
 }
 @media (max-width: 560px) {
-  .hero-inner { padding-top: 168px; padding-bottom: 140px; }
+  .hero-inner { padding-top: 190px; padding-bottom: 140px; }
   .hero-wave { height: 76px; }
   .hero-actions { margin-top: clamp(220px, 44vw, 320px); justify-content: center; }
 }
@@ -2658,9 +2658,9 @@ button, input, textarea, select { font: inherit; }
    ============================================================ */
 @media (max-width: 900px) {
   .navbar { position: relative; padding: 10px 22px; }
-  .brand-logo--full { height: 68px; }
+  .brand-logo--full { height: 82px; }
   .site-header.is-scrolled .brand-logo--full,
-  .site-header.menu-is-open .brand-logo--full { height: 54px; }
+  .site-header.menu-is-open .brand-logo--full { height: 62px; }
  
   .nav-links {
     position: absolute;
@@ -2713,10 +2713,18 @@ button, input, textarea, select { font: inherit; }
   body.menu-open { overflow: hidden; }
  
   .announce { font-size: 0.82rem; line-height: 1.25; }
+  .announce-content > span { font-size: 1rem; }
   .announce-content { gap: 8px; }
   .announce-close { display: none; }   /* no dismiss button on mobile */
 }
- 
+
+/* Tablet / iPad — larger logo than phones */
+@media (min-width: 561px) and (max-width: 900px) {
+  .brand-logo--full { height: 94px; }
+  .site-header.is-scrolled .brand-logo--full,
+  .site-header.menu-is-open .brand-logo--full { height: 70px; }
+}
+
 /* ============================================================
    DESKTOP GUTTER — wide side margins on large screens
    ============================================================ */
