@@ -1,0 +1,96 @@
+/* donate.css — page-specific styles for the coming-soon donation page.
+   Builds on styles.css (fonts, colours, shared header & footer). */
+
+/* Coming-soon donation page. Full-bleed nature photo with the shared
+   site header floating over it (exactly like the homepage hero) and the
+   shared footer below. When the real donation account is live, replace
+   the <main> content — the URL and every Donate button already point here. */
+body { margin: 0; background: #0d2618; }
+
+.cs-hero {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+}
+.cs-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+}
+/* Green wave at the foot of the photo: the green curves up into the
+   image (image above the wavy line, green below) and flows straight into
+   the green CTA. The CTA's own cream wave is hidden so there's no white. */
+.cs-wave {
+  position: absolute;
+  left: 0; right: 0; bottom: -1px;
+  width: 100%;
+  height: clamp(80px, 8vw, 130px);
+  z-index: 1;
+  line-height: 0;
+  pointer-events: none;
+}
+.cs-wave svg { display: block; width: 100%; height: 100%; }
+.cs-wave path { fill: var(--green); }
+.donate-page .cta-section .section-wave path { fill: transparent; }
+/* Centred container matching the navbar / homepage hero-inner width so the
+   copy sits in the same place as the index page (left edge under the logo). */
+.cs-inner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: clamp(180px, 24vh, 240px) 32px 120px;
+}
+.cs-content {
+  width: min(86vw, 640px);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+/* Same size as the homepage hero heading. */
+.cs-title {
+  margin: 0 0 22px;
+  color: #ffffff !important;
+  font-size: clamp(2.35rem, 8.2vw, 3.5rem);
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.45);
+}
+@media (min-width: 901px) {
+  /* Same width and vertical offset as the homepage hero copy. */
+  .cs-inner {
+    width: calc(100% - (var(--page-gutter) * 2));
+    max-width: none;
+    padding: clamp(265px, 29vh, 380px) 0 120px;
+  }
+  .cs-content { width: min(720px, 56vw); }
+  .cs-title { font-size: clamp(3.45rem, 5.1vw, 5.6rem); line-height: 0.96; }
+}
+.cs-lead {
+  font-family: var(--font-hand);
+  color: #ffffff;
+  font-size: clamp(1.4rem, 2.8vw, 2rem);
+  line-height: 1.3;
+  margin: 0 0 14px;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+}
+.cs-thanks {
+  font-family: var(--font-hand);
+  color: rgba(255, 255, 255, 0.92);
+  font-size: clamp(1.4rem, 2.8vw, 2rem);
+  line-height: 1.3;
+  margin: 0 0 30px;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+}
+@media (max-width: 640px) {
+  /* Min is large enough to clear the fixed header (which stays a fixed
+     height while 22vh shrinks on short screens like the iPhone SE and
+     Surface Duo), so the heading never rides up into the logo. */
+  .cs-inner { padding: clamp(184px, 24vh, 210px) 22px 100px; }
+  .cs-content { width: 100%; }
+}
