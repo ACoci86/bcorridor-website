@@ -1,10 +1,8 @@
-/* donate.css — page-specific styles for the coming-soon donation page.
+/* 404.css — page-specific styles for the 404 (page not found) page.
    Builds on styles.css (fonts, colours, shared header & footer). */
 
-/* Coming-soon donation page. Full-bleed nature photo with the shared
-   site header floating over it (exactly like the homepage hero) and the
-   shared footer below. When the real donation account is live, replace
-   the <main> content — the URL and every Donate button already point here. */
+/* Full-bleed nature photo with the shared site header floating over it
+   (exactly like the homepage hero) and the shared footer below. */
 body { margin: 0; background: #0d2618; }
 
 .cs-hero {
@@ -35,7 +33,7 @@ body { margin: 0; background: #0d2618; }
 }
 .cs-wave svg { display: block; width: 100%; height: 100%; }
 .cs-wave path { fill: var(--green); }
-.donate-page .cta-section .section-wave path { fill: transparent; }
+.notfound-page .cta-section .section-wave path { fill: transparent; }
 /* Centred container matching the navbar / homepage hero-inner width so the
    copy sits in the same place as the index page (left edge under the logo). */
 .cs-inner {
@@ -94,3 +92,4 @@ body { margin: 0; background: #0d2618; }
   .cs-inner { padding: clamp(184px, 24vh, 210px) 22px 100px; }
   .cs-content { width: 100%; }
 }
+.cs-home { align-self: flex-start; }

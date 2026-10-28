@@ -70,7 +70,7 @@ don't put anything sensitive in a draft.
 2. **Stadia Maps key** — restrict the map tile key in `script.js` to your domain.
 3. **Instagram link** — the footer Instagram link is still a `#` placeholder
    (Facebook + email are set).
-4. **Donate button** — links to `#donate`; point it at your iDonate page when ready.
+4. **Donate button** — links to the iDonate page (https://www.idonate.ie/donate/cause/bcorridorwaterford).
 
 ## Local preview (static only)
 
