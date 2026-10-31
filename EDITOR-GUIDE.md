@@ -1,159 +1,159 @@
-# B Corridor News — How to add and edit posts
+# <img src="https://cdn.jsdelivr.net/gh/SerenityOS/serenity@master/Base/res/icons/32x32/app-help.png" width="32" align="top" alt="" /> B Corridor News: Editor Guide
 
-A simple, step-by-step guide for writing News posts on the B Corridor website.
-No technical knowledge needed. If you can write an email, you can do this. 🙂
+This guide shows you how to write and manage News posts on the B Corridor website.
+You don't need any technical knowledge. If you can write an email, you can do this.
 
----
+## <img src="https://cdn.jsdelivr.net/gh/SerenityOS/serenity@master/Base/res/icons/32x32/key.png" width="32" align="top" alt="" /> 1. Logging in
 
-## 1. Logging in
+1. Open your web browser.
+2. Go to `bcorridorwaterford.com/admin`.
+3. Type your email and password, then press Sign in.
 
-1. Open your web browser (Chrome, Safari, Edge…).
-2. Go to: **`bcorridorwaterford.com/admin`**
-3. Type your **email** and **password**, then click **Sign in**.
+Tip: bookmark this page so it is easy to find next time.
 
-> 💡 Tip: bookmark this page so it's easy to find next time.
->
-> If you ever see *"Login failed"*, check the email and password are correct
-> (the password is case-sensitive). If you've forgotten them, contact whoever
-> set up your account.
+If you see "Invalid email or password", check both and try again. The password is
+case sensitive. If you have forgotten it, ask the person who set up your account.
 
----
+## <img src="https://cdn.jsdelivr.net/gh/SerenityOS/serenity@master/Base/res/icons/32x32/filetype-folder.png" width="32" align="top" alt="" /> 2. The Posts screen
 
-## 2. The Posts screen
+After you log in you will see a list of every post written so far. Each row shows a
+small photo, the title, a label, the category and the date.
 
-After you sign in, you'll see **Posts** — a list of everything written so far.
+The label tells you if the post is Published (visible on the website) or Draft
+(hidden).
 
-Each row shows:
-- a small **photo**,
-- the **title**,
-- a coloured label: **Published** (live on the website) or **Draft** (hidden, only visible here),
-- the **category** and **date**.
+For each post you can:
 
-From here you can:
-- Click **+ New post** (top right) to write a brand-new post.
-- Click **Edit** on any row to change an existing post.
-- Click **Log out** when you're finished.
+- **View**: open the live page in a new tab. This only shows for published posts.
+- **Edit**: open the post so you can change it.
 
----
+At the top right, **+ New post** starts a new post and **Log out** signs you out.
 
-## 3. Writing a new post
+## <img src="https://cdn.jsdelivr.net/gh/SerenityOS/serenity@master/Base/res/icons/32x32/app-text-editor.png" width="32" align="top" alt="" /> 3. Writing a new post
 
-Click **+ New post**. You'll see a form. Here's what each part means:
+Press **+ New post** and fill in the form.
 
 | Field | What to put |
 |---|---|
-| **Title** | The headline of your post. e.g. *"A Corridor in Bloom"* |
-| **Short summary** | 1–2 sentences. This is the teaser shown on the cards on the News page and homepage. |
-| **Category** | Pick one: **Action**, **Education**, or **Community**. |
-| **Date** | The date of the post (defaults to today). |
-| **Author** | Who wrote it. Defaults to *"B Corridor Team"* — you can change it. |
-| **Featured image** | The big photo at the top of the article. See *Adding photos* below. |
-| **Article text** | The body of your post. This is where you write. See next section. |
-| **Visibility** | **Published** = live on the site. **Draft** = saved but hidden from the public. |
+| Title | The headline, for example "A Corridor in Bloom". |
+| Short summary | One or two sentences. This is the teaser shown on the News page and the home page. |
+| Category | Choose Action, Education or Community. |
+| Date | The date of the post. It starts as today. |
+| Author | Who wrote it. It starts as "B Corridor Team". |
+| Featured image | The big photo at the top of the post (see section 5). |
+| Article text | The body of your post (see section 4). |
+| Visibility | Published makes it live. Draft saves it but keeps it hidden. |
 
-When you're happy, click **Save** (bottom). 
-**The live website updates by itself in about a minute** — there's nothing else to do.
+When you are happy, press **Save** at the bottom. The website updates by itself in
+about a minute, so there is nothing else to do.
 
----
+## <img src="https://cdn.jsdelivr.net/gh/SerenityOS/serenity@master/Base/res/icons/32x32/filetype-markdown.png" width="32" align="top" alt="" /> 4. Writing the article text
 
-## 4. Writing the article text
-
-The big writing box has a **toolbar** of buttons along the top. Type your text
-like a normal document, then use the buttons to format it:
+The writing box has a row of buttons at the top. Type as you normally would, then use
+the buttons to format your text.
 
 | Button | What it does | How to use it |
 |---|---|---|
-| **B** | **Bold** | Select the words first, then click **B**. |
-| ***i*** | *Italic* | Select the words first, then click ***i***. |
-| **H2** | A big heading | Click on the line, then click **H2**. |
-| **H3** | A smaller sub-heading | Click on the line, then click **H3**. |
-| **• List** | A bulleted list | Click where you want the list, then click it. |
-| **❝ Quote** | A highlighted quote | Click on the line, then click it. |
-| **🔗 Link** | Turn text into a clickable link | Select the words, click **🔗 Link**, paste the web address (starting with `https://`). |
-| **🖼 Image** | Put one photo in the text | See below. |
-| **🎠 Carousel** | A swipeable gallery of several photos | See below. |
-| **🎬 Video** | Embed a YouTube or Vimeo video | See below. |
+| B | Bold | Select the words, then press B. |
+| i | Italic | Select the words, then press i. |
+| H2 | A large heading | Click on the line, then press H2. |
+| H3 | A smaller heading | Click on the line, then press H3. |
+| List | A bulleted list | Click where you want the list, then press the button. |
+| Quote | A highlighted quote | Click on the line, then press the button. |
+| Link | A clickable link | Select the words, press Link, then paste the web address (it starts with `https://`). |
+| Image | One photo in the text | See section 5. |
+| Carousel | A gallery of photos to swipe through | See section 6. |
+| Video | A YouTube or Vimeo video | See section 7. |
 
-> 💡 To start a new paragraph, just press **Enter** like normal.
+To start a new paragraph, press Enter.
 
----
+## <img src="https://cdn.jsdelivr.net/gh/SerenityOS/serenity@master/Base/res/icons/32x32/app-image-viewer.png" width="32" align="top" alt="" /> 5. Photos
 
-## 5. Adding photos
+You don't need to worry about the size of your photos. The editor shrinks them
+automatically so the website stays fast. They also show up in the editor straight away.
 
-**You don't need to worry about photo size** — the system automatically shrinks
-large photos so the website stays fast. Just upload the picture straight from
-your phone or computer.
+**Featured photo (the one at the top):**
 
-**The big featured photo (top of the article):**
-1. Find the **Featured image** field.
-2. Click **Choose file** and pick a photo.
-3. A small preview appears once it's uploaded. ✓
+1. Next to Featured image, press Browse and choose a photo.
+2. A preview appears once it has been added.
+3. To change it, press "Remove featured image" and add a different one.
 
 **A photo inside the text:**
+
 1. Click in the writing box where you want the photo.
-2. Click **🖼 Image** in the toolbar.
-3. Choose a photo. It drops straight in.
+2. Press Image and choose a photo. It is added right there.
+3. To remove it, click the photo and then press the "Remove image" button that appears.
 
-**A carousel (several photos people can swipe through):**
-1. Click **🎠 Carousel**.
-2. Select **several photos at once** (hold Ctrl/⌘ to pick more than one).
-3. A box opens showing each photo with a **caption field underneath**. Type a
-   caption for any photo you like (or leave it blank), then click **Add to article**.
-4. The gallery appears as a green dashed box in the editor. That's normal — it
-   looks proper on the live site.
+Wide (landscape) photos look best as the featured image.
 
-> 💡 **To change a caption later:** just click the green carousel box in the
-> editor. The same caption box reopens — edit the wording and click **Save
-> captions**. (To add or remove photos, delete the carousel and add it again.)
+## <img src="https://cdn.jsdelivr.net/gh/SerenityOS/serenity@master/Base/res/icons/32x32/filetype-image.png" width="32" align="top" alt="" /> 6. Carousels
 
----
+A carousel is a gallery that visitors can swipe through.
 
-## 6. Adding a video
+**To add one:**
 
-1. Copy the video's web address from **YouTube** or **Vimeo**
-   (the link in your browser's address bar).
-2. Click **🎬 Video** in the toolbar.
-3. Paste the link.
-4. It asks if you want it to **play automatically** (it will be silent/muted) —
-   choose Yes or No.
+1. Press Carousel.
+2. Choose several photos at once. Hold Ctrl (or Cmd on a Mac) to pick more than one.
+3. A box opens showing every photo with a space for a caption underneath. Add a
+   caption if you like, or leave it empty. If you picked a photo by mistake, press
+   the ✕ on it.
+4. Press Add to article.
 
-It appears as a green box labelled *🎬 Video* in the editor — that's just a
-placeholder; the real video shows on the live site.
+In the editor the gallery shows as a green dashed box. That is normal. It looks right
+on the live website.
 
----
+**To change one later:**
 
-## 7. Editing or deleting a post
+Click the green box. The same window opens again, and you can:
 
-- **To edit:** on the Posts screen, click **Edit** on the post, make your
-  changes, then click **Save**.
-- **To delete:** open the post with **Edit**, scroll down, click **Delete**,
-  and confirm. ⚠️ **Deleting cannot be undone**, so be sure.
+- change captions and press Save changes
+- remove a single photo with its ✕
+- delete the whole carousel with Delete carousel
 
----
+To add more photos to a carousel that already exists, delete it and make it again with
+all the photos together.
 
-## 8. Drafts vs Published
+## <img src="https://cdn.jsdelivr.net/gh/SerenityOS/serenity@master/Base/res/icons/32x32/filetype-video.png" width="32" align="top" alt="" /> 7. Videos
 
-- Set **Visibility** to **Draft** to save your work without showing it to the
-  public — handy if it's not finished.
-- Set it to **Published** when it's ready to go live.
-- You can switch a Draft to Published (or back) any time by editing it.
+Videos are added with a YouTube or Vimeo link. You can't upload a video file directly,
+because video files are very large and would slow the website down.
 
-> 📌 The **homepage** shows the **3 newest** published posts.
-> The **News page** shows **all** published posts, 3 per page.
+1. Upload your video to YouTube or Vimeo first. On YouTube you can choose Unlisted, so
+   it is not public on YouTube but still plays on our website.
+2. Copy the video's web address from your browser.
+3. Press Video in the editor and paste the link.
+4. You will be asked if the video should play automatically. It plays without sound.
+   Choose Yes or No.
 
----
+In the editor the video shows as a green box. That is only a placeholder. The real video
+plays on the live website.
 
-## 9. Good to know
+To remove a video, click the green box and press "Remove video".
 
-- **Saving:** after you click Save, the website refreshes itself in about a
-  minute. If you don't see your change immediately, wait a moment and reload the
-  page.
-- **"Please sign in again":** if you've been idle a long time, you may be logged
-  out for security. Just sign in again — your post is safe if you'd saved it.
-- **Photos:** clear, landscape (wide) photos usually look best as the featured image.
-- **Take your time:** you can always come back and edit. Nothing is final until
-  you're happy.
+## <img src="https://cdn.jsdelivr.net/gh/SerenityOS/serenity@master/Base/res/icons/32x32/recycle-bin.png" width="32" align="top" alt="" /> 8. Editing, viewing and deleting
 
----
+- **Edit**: on the Posts screen press Edit, make your changes, then press Save.
+- **View live**: press View on the Posts screen, or View live inside a post, to see the
+  public page.
+- **Delete**: open the post with Edit, scroll down, press Delete and confirm.
+  Deleting cannot be undone.
 
-*Need help? Contact the person who manages the website.*
+## <img src="https://cdn.jsdelivr.net/gh/SerenityOS/serenity@master/Base/res/icons/32x32/filetype-text.png" width="32" align="top" alt="" /> 9. Drafts and published posts
+
+- Set Visibility to **Draft** to save a post without showing it to anyone. This is handy
+  when it is not finished.
+- Set it to **Published** when it is ready.
+- You can switch between the two at any time by editing the post.
+
+The home page shows the 3 newest published posts. The News page shows all published
+posts, 3 per page.
+
+## <img src="https://cdn.jsdelivr.net/gh/SerenityOS/serenity@master/Base/res/icons/32x32/msgbox-question.png" width="32" align="top" alt="" /> 10. Good to know
+
+- After you press Save, the live website takes about a minute to update. If you don't
+  see your change straight away, wait a moment and reload the page.
+- If you see "Please sign in again", you were logged out after being away for a while.
+  Sign in again. Your saved work is safe.
+- Nothing is final. You can come back and edit a post whenever you like.
+
+If you need help, contact the person who looks after the website.

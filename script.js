@@ -370,21 +370,6 @@
     return "";
   }
 
-  function conservationLabel(status) {
-    if (!status) return "";
-    const code = status.status || status.iucn || status.status_name;
-    const labels = {
-      LC: "Least concern",
-      NT: "Near threatened",
-      VU: "Vulnerable",
-      EN: "Endangered",
-      CR: "Critically endangered",
-      EW: "Extinct in the wild",
-      EX: "Extinct",
-    };
-    return labels[code] || titleCase(status.status_name || code || "");
-  }
-
   function buildQuickFacts(full, obs) {
     const taxon = full || obs?.taxon || {};
     const commonName =
@@ -809,9 +794,7 @@ document.querySelector(".learn-more")?.addEventListener("click", (e) => {
   const map = L.map("bcorridor-map", { scrollWheelZoom: false, tap: true });
 
   const STADIA_API_KEY = "ab3ecc7e-fefb-4d3a-81f6-9c8fcda8432a";
-  const stadiaQuery = STADIA_API_KEY
-    ? "?api_key=" + encodeURIComponent(STADIA_API_KEY)
-    : "";
+  const stadiaQuery = "?api_key=" + encodeURIComponent(STADIA_API_KEY);
   const stadiaAttribution =
     '&copy; <a href="https://www.stadiamaps.com/" target="_blank" rel="noopener">Stadia Maps</a> &copy; <a href="https://stamen.com/" target="_blank" rel="noopener">Stamen Design</a> &copy; <a href="https://openmaptiles.org/" target="_blank" rel="noopener">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors';
 
@@ -819,7 +802,6 @@ document.querySelector(".learn-more")?.addEventListener("click", (e) => {
     "https://tiles.stadiamaps.com/tiles/stamen_terrain/{z}/{x}/{y}{r}.png" +
       stadiaQuery,
     {
-      minZoom: 0,
       maxZoom: 18,
       detectRetina: true,
       className: "map-tiles--soft-terrain",
@@ -896,7 +878,6 @@ document.querySelector(".learn-more")?.addEventListener("click", (e) => {
       icon: numberedIcon(stop.num),
       title: stop.num + ". " + stop.fullName,
     }).addTo(map);
-    marker.stopNumber = String(stop.num);
     marker.on("click", () => {
       setActiveStop(String(stop.num), { focusMap: false });
     });
@@ -929,9 +910,6 @@ document.querySelector(".learn-more")?.addEventListener("click", (e) => {
         map.invalidateSize();
       } catch (e) {}
     });
-  }
-  function isMobileMapSheet() {
-    return mqSheet.matches || window.matchMedia("(pointer: coarse)").matches;
   }
 
   function openDetail() {
@@ -1046,7 +1024,7 @@ document.querySelector(".learn-more")?.addEventListener("click", (e) => {
       deltaY = 0;
     }
 
-    /* Grab handle — pointer events with capture, as before. */
+    /* Grab handle — pointer events with capture. */
     if (detailHandle) {
       detailHandle.addEventListener("pointerdown", (e) => {
         if (!mqSheet.matches) return;
@@ -1228,90 +1206,88 @@ document.querySelector(".learn-more")?.addEventListener("click", (e) => {
       clearTimeout(timeout);
     }
   })();
+})();
 
-  /* (trail download/print removed — replaced by an "Open in Google Maps" link) */
+// Mission polaroid carousel — cycle which image sits in the featured slot
+(() => {
+  const group = document.querySelector(".mission-illustration");
+  if (!group) return;
+  const polaroids = Array.from(group.querySelectorAll(".polaroid"));
+  if (polaroids.length < 2) return;
 
-  // Mission polaroid carousel — cycle which image sits in the featured slot
-  (() => {
-    const group = document.querySelector(".mission-illustration");
-    if (!group) return;
-    const polaroids = Array.from(group.querySelectorAll(".polaroid"));
-    if (polaroids.length < 2) return;
+  const SLOTS = ["is-slot-1", "is-slot-2", "is-slot-3"];
+  const initialMap = {
+    "polaroid--main": "is-slot-1",
+    "polaroid--coast": "is-slot-2",
+    "polaroid--flower": "is-slot-3",
+  };
+  polaroids.forEach((p) => {
+    for (const [mod, slot] of Object.entries(initialMap)) {
+      if (p.classList.contains(mod)) p.classList.add(slot);
+    }
+  });
 
-    const SLOTS = ["is-slot-1", "is-slot-2", "is-slot-3"];
-    const initialMap = {
-      "polaroid--main": "is-slot-1",
-      "polaroid--coast": "is-slot-2",
-      "polaroid--flower": "is-slot-3",
-    };
-    polaroids.forEach((p) => {
-      for (const [mod, slot] of Object.entries(initialMap)) {
-        if (p.classList.contains(mod)) p.classList.add(slot);
-      }
-    });
+  // Video polaroids are user-triggered. The play button sits over the
+  // clip and the video can only start while its card is the uncovered,
+  // top-most one (is-slot-3, the highest z-index slot). When a card is
+  // covered by another it pauses and the play button reappears. The
+  // user can also tap the clip itself to pause/resume it.
+  const UNCOVERED_SLOT = "is-slot-3";
+  const isUncovered = (p) => p.classList.contains(UNCOVERED_SLOT);
+  const playVideo = (video) => {
+    const play = video.play();
+    if (play && typeof play.catch === "function") play.catch(() => {});
+  };
 
-    // Video polaroids are user-triggered. The play button sits over the
-    // clip and the video can only start while its card is the uncovered,
-    // top-most one (is-slot-3, the highest z-index slot). When a card is
-    // covered by another it pauses and the play button reappears. The
-    // user can also tap the clip itself to pause/resume it.
-    const UNCOVERED_SLOT = "is-slot-3";
-    const isUncovered = (p) => p.classList.contains(UNCOVERED_SLOT);
-    const playVideo = (video) => {
-      const play = video.play();
-      if (play && typeof play.catch === "function") play.catch(() => {});
-    };
-
-    const syncVideos = () => {
-      polaroids.forEach((p) => {
-        const video = p.querySelector("video");
-        const btn = p.querySelector(".polaroid-play");
-        if (!video || !btn) return;
-        if (!isUncovered(p)) video.pause();
-        btn.hidden = !(isUncovered(p) && video.paused);
-      });
-    };
-
+  const syncVideos = () => {
     polaroids.forEach((p) => {
       const video = p.querySelector("video");
       const btn = p.querySelector(".polaroid-play");
       if (!video || !btn) return;
-      btn.addEventListener("click", () => playVideo(video));
-      // Tap the clip to toggle: pause anytime, resume only while uncovered.
-      video.addEventListener("click", () => {
-        if (video.paused) {
-          if (isUncovered(p)) playVideo(video);
-        } else {
-          video.pause();
-        }
-      });
-      video.addEventListener("play", () => {
-        btn.hidden = true;
-      });
-      video.addEventListener("pause", syncVideos);
+      if (!isUncovered(p)) video.pause();
+      btn.hidden = !(isUncovered(p) && video.paused);
     });
+  };
 
-    const rotate = (dir) => {
-      const current = polaroids.map((p) =>
-        SLOTS.findIndex((s) => p.classList.contains(s)),
-      );
-      polaroids.forEach((p, i) => {
-        p.classList.remove(...SLOTS);
-        const next = (current[i] + dir + SLOTS.length) % SLOTS.length;
-        p.classList.add(SLOTS[next]);
-      });
-      syncVideos();
-    };
+  polaroids.forEach((p) => {
+    const video = p.querySelector("video");
+    const btn = p.querySelector(".polaroid-play");
+    if (!video || !btn) return;
+    btn.addEventListener("click", () => playVideo(video));
+    // Tap the clip to toggle: pause anytime, resume only while uncovered.
+    video.addEventListener("click", () => {
+      if (video.paused) {
+        if (isUncovered(p)) playVideo(video);
+      } else {
+        video.pause();
+      }
+    });
+    video.addEventListener("play", () => {
+      btn.hidden = true;
+    });
+    video.addEventListener("pause", syncVideos);
+  });
 
+  const rotate = (dir) => {
+    const current = polaroids.map((p) =>
+      SLOTS.findIndex((s) => p.classList.contains(s)),
+    );
+    polaroids.forEach((p, i) => {
+      p.classList.remove(...SLOTS);
+      const next = (current[i] + dir + SLOTS.length) % SLOTS.length;
+      p.classList.add(SLOTS[next]);
+    });
     syncVideos();
+  };
 
-    group
-      .querySelector(".polaroid-nav--prev")
-      ?.addEventListener("click", () => rotate(-1));
-    group
-      .querySelector(".polaroid-nav--next")
-      ?.addEventListener("click", () => rotate(1));
-  })();
+  syncVideos();
+
+  group
+    .querySelector(".polaroid-nav--prev")
+    ?.addEventListener("click", () => rotate(-1));
+  group
+    .querySelector(".polaroid-nav--next")
+    ?.addEventListener("click", () => rotate(1));
 })();
 
 /* ───────────── "A Connected Landscape" — fit on one line ─────────────
